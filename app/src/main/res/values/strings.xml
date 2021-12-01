@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">MyNote</string>
+    <string name="myNote">MyNote</string>
+    <string name="add">Add</string>
+    <string name="setting">Setting</string>
+    <string name="persian">Persian</string>
+    <string name="english">English</string>
+    <string name="select_your_language">Select Your Language:</string>
+    <string name="save_data">Save</string>
+    <string name="title">Title:</string>
+    <string name="description">Description:</string>
+    <string name="success">Success</string>
+    <string name="unsuccessful">Unsuccessful</string>
+    <string name="time_require">Time is Require</string>
+    <string name="date_require">Date is Require</string>
+    <string name="title_require">Title is Require</string>
+    <string name="description_require">Description is Require</string>
+    <string name="you_can_add_here">You can Add Here</string>
+    <string name="you_can_edit_here">You Can Edit Here</string>
+    <string name="edit">Edit</string>
+    <string name="exit">Exit</string>
+    <string name="search">Search</string>
+    <string name="ok">Ok</string>
+
+    <string-array name="language">
+
+        <item>@string/persian</item>
+        <item>@string/english</item>
+
+    </string-array>
+
+</resources>
