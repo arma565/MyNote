@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/myNote"
                 android:textStyle="bold"
-                android:textSize="30sp"
+                android:textSize="@dimen/font_30sp"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_layout"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/size_0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_20"
         app:layout_constraintTop_toBottomOf="@id/toolbar_add"
@@ -71,7 +71,7 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/description_layout"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/size_0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_20"
         app:layout_constraintTop_toBottomOf="@id/title_layout"
@@ -81,7 +81,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edt_description"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="@dimen/size_100"
             android:hint="@string/description"
             android:inputType="textMultiLine"
             />
@@ -90,7 +90,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cons_time_date"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/size_0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_20"
         app:layout_constraintTop_toBottomOf="@id/description_layout"
@@ -102,7 +102,6 @@
             android:id="@+id/img_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
@@ -128,7 +127,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_save"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/size_0"
         android:layout_height="wrap_content"
         android:background="?colorPrimary"
         android:layout_margin="@dimen/margin_20"

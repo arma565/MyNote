@@ -21,6 +21,7 @@
     <string name="exit">Exit</string>
     <string name="search">Search</string>
     <string name="ok">Ok</string>
+    <string name="this_is_add_note_button">This is Add Note Button</string>
 
     <string-array name="language">
 

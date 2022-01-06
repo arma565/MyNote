@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_Setting"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/size_0"
         android:layout_height="?actionBarSize"
         android:background="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/myNote"
                 android:textStyle="bold"
-                android:textSize="30sp"
+                android:textSize="@dimen/font_30sp"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +80,7 @@
         android:background="?colorPrimary"
         android:textColor="@color/white"
         android:layout_margin="@dimen/margin_20"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_16"
         android:text="@string/save_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
