@@ -6,8 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android_learn.mynote.R
-import com.android_learn.mynote.adapter.HomeAdapter
+import com.android_learn.mynote.adapter.NoteAdapter
 import com.android_learn.mynote.databinding.ActivitySearchBinding
 import com.android_learn.mynote.db.AppDatabase
 import com.android_learn.mynote.models.Note
@@ -31,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val noteList : MutableList<Note> = appDatabase.noteDao().searchNote(s.toString())
-                binding.recSearch.adapter = HomeAdapter(applicationContext , noteList)
+                binding.recSearch.adapter = NoteAdapter(applicationContext , noteList)
                 binding.recSearch.layoutManager = LinearLayoutManager(applicationContext , LinearLayoutManager.VERTICAL , false)
             }
 
@@ -42,7 +41,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        binding.recSearch.adapter = HomeAdapter(applicationContext , appDatabase.noteDao().noteList())
+        binding.recSearch.adapter = NoteAdapter(applicationContext , appDatabase.noteDao().noteList())
         binding.recSearch.layoutManager = LinearLayoutManager(applicationContext , LinearLayoutManager.VERTICAL , false)
         super.onResume()
     }

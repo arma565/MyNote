@@ -13,19 +13,19 @@ import com.android_learn.mynote.db.AppDatabase
 import com.android_learn.mynote.models.Note
 import com.android_learn.mynote.models.Type
 
-class HomeAdapter(context: Context, noteList: MutableList<Note>) : RecyclerView.Adapter<HomeVH>() {
-    var context: Context = context
-    var appDatabase: AppDatabase = AppDatabase.getInstance(context)
+class NoteAdapter(context: Context, noteList: MutableList<Note>) : RecyclerView.Adapter<NoteVH>() {
+    val context: Context = context
+    private var appDatabase: AppDatabase = AppDatabase.getInstance(context)
     private var noteList: MutableList<Note> = noteList
 
 
     @SuppressLint("InflateParams")
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteVH {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.note_row, null)
-        return HomeVH(view)
+        return NoteVH(view)
     }
 
-    override fun onBindViewHolder(holder: HomeVH, position: Int) {
+    override fun onBindViewHolder(holder: NoteVH, position: Int) {
         val note: Note = noteList[position]
         holder.txt_title.text = note.title
         holder.txt_description.text = note.description

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_learn.mynote.activity.SearchActivity
 import com.android_learn.mynote.activity.SettingActivity
 import com.android_learn.mynote.activity.addactivity.AddNoteActivity
-import com.android_learn.mynote.adapter.HomeAdapter
+import com.android_learn.mynote.adapter.NoteAdapter
 import com.android_learn.mynote.databinding.ActivityMainBinding
 import com.android_learn.mynote.db.AppDatabase
 import com.android_learn.mynote.models.Type
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAll() {
-        binding.recHome.adapter = HomeAdapter(applicationContext, appDatabase.noteDao().noteList())
+        binding.recHome.adapter = NoteAdapter(applicationContext, appDatabase.noteDao().noteList())
         binding.recHome.layoutManager =
             LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
     }

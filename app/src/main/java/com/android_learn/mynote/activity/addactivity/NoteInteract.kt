@@ -5,7 +5,7 @@ import com.android_learn.mynote.db.AppDatabase
 import com.android_learn.mynote.models.Note
 
 class NoteInteract(context: Context) {
-    var context: Context = context
+    var contextActivity: Context = context
 
     var appDatabase : AppDatabase = AppDatabase.getInstance(context)
 

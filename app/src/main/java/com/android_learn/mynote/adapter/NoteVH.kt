@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android_learn.mynote.R
 
-class HomeVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class NoteVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
      val txt_title : AppCompatTextView = itemView.findViewById(R.id.txt_title)
      val txt_description : AppCompatTextView = itemView.findViewById(R.id.txt_description)
