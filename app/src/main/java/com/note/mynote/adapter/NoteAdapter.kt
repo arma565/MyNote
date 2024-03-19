@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android_learn.mynote.R
-import com.android_learn.mynote.activity.addactivity.AddNoteActivity
+import com.note.mynote.activity.addactivity.AddNoteActivity
 import com.note.mynote.db.AppDatabase
 import com.android_learn.mynote.models.Note
 import com.android_learn.mynote.models.Type

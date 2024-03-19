@@ -1,4 +1,4 @@
-package com.android_learn.mynote
+package com.note.mynote
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -10,7 +10,7 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_learn.mynote.activity.SearchActivity
 import com.android_learn.mynote.activity.SettingActivity
-import com.android_learn.mynote.activity.addactivity.AddNoteActivity
+import com.note.mynote.activity.addactivity.AddNoteActivity
 import com.android_learn.mynote.adapter.NoteAdapter
 import com.android_learn.mynote.databinding.ActivityMainBinding
 import com.note.mynote.db.AppDatabase

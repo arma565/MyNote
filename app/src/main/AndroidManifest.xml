@@ -16,10 +16,10 @@
             android:name=".activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.addactivity.AddNoteActivity"
+            android:name="com.note.mynote.activity.addactivity.AddNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.note.mynote.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

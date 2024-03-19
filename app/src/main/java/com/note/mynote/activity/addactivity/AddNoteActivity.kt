@@ -1,14 +1,14 @@
-package com.android_learn.mynote.activity.addactivity
+package com.note.mynote.activity.addactivity
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.DatePicker
-import android.widget.TimePicker
 import android.widget.Toast
 import com.android_learn.mynote.R
+import com.android_learn.mynote.activity.addactivity.IViewNote
+import com.android_learn.mynote.activity.addactivity.NotePresenter
 import com.android_learn.mynote.databinding.ActivityAddNoteBinding
 import com.android_learn.mynote.models.Note
 import com.android_learn.mynote.models.Type
