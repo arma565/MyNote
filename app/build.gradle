@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'com.google.devtools.ksp' version "1.9.22-1.0.17"
+}
+
+android {
+    namespace 'com.note.mynote'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.note.mynote"
+        minSdk 25
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlin{
+        jvmToolchain(17)
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
+    implementation libs.androidx.preference.ktx
+    implementation libs.android.joda
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.core.testing
+    implementation libs.androidx.junit.ktx
+    testImplementation libs.junit
+    androidTestImplementation libs.junit
+    androidTestImplementation libs.androidx.core.testing
+    androidTestImplementation libs.androidx.espresso.core
+
+
+    //room
+    def room_version = '2.6.1'
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp("androidx.room:room-compiler:$room_version")
+
+    //dagger hilt
+    def hilt_version = '2.51'
+    implementation libs.hilt.android
+    ksp "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+
+    //coroutine
+    implementation(libs.kotlinx.coroutines.android)
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.androidx.lifecycle.common
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation libs.androidx.lifecycle.runtime.ktx
+    // ViewModel
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    // LiveData
+    implementation libs.androidx.lifecycle.livedata.ktx
+}
