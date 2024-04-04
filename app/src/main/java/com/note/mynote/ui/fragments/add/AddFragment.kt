@@ -23,6 +23,9 @@ import com.note.mynote.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
+/**
+ * Add note
+ */
 @AndroidEntryPoint
 class AddFragment : Fragment(), IViewNoteResponse {
     private lateinit var binding: FragmentAddBinding

@@ -10,7 +10,15 @@ import androidx.navigation.fragment.NavHostFragment
 import com.note.mynote.R
 import com.note.mynote.ui.activity.MainActivity
 
+/**
+ * Useful functions
+ */
 object GlobalFunctions {
+
+    /**
+     * Validate note
+     * @param note instance of Note model
+     */
     fun validateNote(note: Note, listener: IViewNoteResponse): Boolean {
         return when (true) {
             note.title?.isEmpty() -> {
@@ -29,12 +37,6 @@ object GlobalFunctions {
         }
     }
 
-    private fun activityFadeAnimation(context: Context) = ActivityOptionsCompat.makeCustomAnimation(
-        context,
-        android.R.anim.fade_in,
-        android.R.anim.fade_out
-    ).toBundle()
-
     fun getResult(activity: AppCompatActivity, res: Long) {
         if (res > 0) {
             activity.finish()
@@ -46,6 +48,12 @@ object GlobalFunctions {
                 .show()
         }
     }
+
+    private fun activityFadeAnimation(context: Context) = ActivityOptionsCompat.makeCustomAnimation(
+        context,
+        android.R.anim.fade_in,
+        android.R.anim.fade_out
+    ).toBundle()
 
     fun getNavControllerFragmentNote(activity: FragmentActivity) =
         (activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerNote) as NavHostFragment).navController

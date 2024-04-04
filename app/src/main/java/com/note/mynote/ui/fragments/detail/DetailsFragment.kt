@@ -27,7 +27,9 @@ import com.note.mynote.models.GlobalFunctions
 import com.note.mynote.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 
-
+/**
+ * Details
+ */
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {

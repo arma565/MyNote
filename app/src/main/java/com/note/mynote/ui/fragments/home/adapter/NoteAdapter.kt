@@ -12,6 +12,10 @@ import com.note.mynote.databinding.NoteRowBinding
 import com.note.mynote.db.viewmodel.NoteViewModel
 import com.note.mynote.models.GlobalFunctions
 import com.note.mynote.models.Note
+
+/**
+ * recycler adapter
+ */
 class NoteAdapter(
     private val activity : FragmentActivity,
     private var noteViewModel: NoteViewModel,

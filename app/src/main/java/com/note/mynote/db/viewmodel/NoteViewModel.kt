@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * View model
+ * @param repository instance of NoteRepository
+ */
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     private val repository: NoteRepository

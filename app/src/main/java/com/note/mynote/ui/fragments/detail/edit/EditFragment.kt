@@ -28,6 +28,9 @@ import com.note.mynote.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
+/**
+ * Edit note
+ */
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
 class EditFragment : Fragment(), IViewNoteResponse {
