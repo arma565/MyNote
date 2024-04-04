@@ -21,6 +21,20 @@
     <string name="exit">خروج</string>
     <string name="search">جست و جو </string>
     <string name="ok">تایید</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="clear">Clear All</string>
+    <string name="search_here">Search here...</string>
+    <string name="text_can_not_be_empty">Text can not be empty!</string>
+    <string name="no_data_found">No data found!!</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="home">Home</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="set_time">Set Time</string>
+    <string name="set_date">Set Date</string>
 
     <string-array name="language">
 
