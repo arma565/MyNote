@@ -6,27 +6,38 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.android_learn.mynote.models.Note
-import kotlinx.coroutines.flow.Flow
+import com.note.mynote.models.Note
 
 @Dao
 interface NoteDao {
 
+    /**
+     * Insert note
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note): Long
 
+    /**
+     * Get note list
+     */
+    @Query("SELECT * FROM tbl_note")
+    fun noteList(): List<Note>
+
+    /**
+     * Update note
+     */
     @Update
     suspend fun updateNote(note: Note): Int
 
-    @Query("select * from tbl_note")
-    fun noteList(): Flow<List<Note>>
+    /**
+     * Delete note
+     */
+    @Delete
+    suspend fun deleteNote(note: Note) : Int
 
-    @Query("select * from tbl_note where title like  '%'|| :search ||'%' ")
-    fun searchNote(search: String): Flow<List<Note>>
-
+    /**
+     * Delete all notes
+     */
     @Query("DELETE FROM tbl_note")
     suspend fun deleteAllNotes()
-
-    @Delete
-    suspend fun deleteNote(note: Note)
 }
