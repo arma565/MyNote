@@ -26,7 +26,6 @@ import com.note.mynote.models.GlobalFunctions
 import com.note.mynote.models.IViewNoteResponse
 import com.note.mynote.models.Note
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import org.joda.time.DateTime
 
 /**
@@ -34,18 +33,19 @@ import org.joda.time.DateTime
  */
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class EditFragment : Fragment(),IViewNoteResponse {
+class EditFragment : Fragment(), IViewNoteResponse {
     private lateinit var binding: FragmentEditBinding
     private lateinit var note: Note
     private var time: String = ""
-    private var date : String = ""
-    private val noteViewModel : NoteViewModel by viewModels()
-    private lateinit var owner : LifecycleOwner
+    private var date: String = ""
+    private val noteViewModel: NoteViewModel by viewModels()
+    private lateinit var owner: LifecycleOwner
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         owner = this
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +81,7 @@ class EditFragment : Fragment(),IViewNoteResponse {
                 itemTime.setOnMenuItemClickListener {
                     val mHour = dt.hourOfDay
                     val mMin = dt.minuteOfHour
-                    val materialTimePicker : MaterialTimePicker = MaterialTimePicker.Builder()
+                    val materialTimePicker: MaterialTimePicker = MaterialTimePicker.Builder()
                         .setTimeFormat(TimeFormat.CLOCK_12H)
                         .setTimeFormat(TimeFormat.CLOCK_24H)
                         .setHour(mHour)
@@ -92,7 +92,7 @@ class EditFragment : Fragment(),IViewNoteResponse {
                     materialTimePicker.addOnPositiveButtonClickListener {
                         time = "${materialTimePicker.hour}:${materialTimePicker.minute}"
                     }
-                    materialTimePicker.show(parentFragmentManager,getString(R.string.time))
+                    materialTimePicker.show(parentFragmentManager, getString(R.string.time))
                     true
                 }
 
@@ -102,21 +102,21 @@ class EditFragment : Fragment(),IViewNoteResponse {
                         .setTitleText(getString(R.string.set_date))
                         .setPositiveButtonText(getString(R.string.ok))
                         .build()
-                    materialDatePicker.addOnPositiveButtonClickListener {newDt->
+                    materialDatePicker.addOnPositiveButtonClickListener { newDt ->
                         val newDate = DateTime(newDt)
                         date = "${newDate.year}/${newDate.monthOfYear}/${newDate.dayOfMonth}"
                     }
-                    materialDatePicker.show(parentFragmentManager,getString(R.string.date))
+                    materialDatePicker.show(parentFragmentManager, getString(R.string.date))
                     true
                 }
 
                 itemSave.setOnMenuItemClickListener {
                     val title = binding.edtTitle.text.toString()
                     val description = binding.edtDescription.text.toString()
-                    val note = Note(note.id,title,description, time, date)
-                    if (GlobalFunctions.validateNote(note,this@EditFragment)){
-                        noteViewModel.updateNote(note).observe(owner){res->
-                            GlobalFunctions.getResult(myActivity,res.toLong())
+                    val note = Note(note.id, title, description, time, date)
+                    if (GlobalFunctions.validateNote(note, this@EditFragment)) {
+                        noteViewModel.updateNote(note).observe(owner) { res ->
+                            GlobalFunctions.getResult(myActivity, res.toLong())
                         }
                     }
                     true
