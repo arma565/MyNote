@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.note.mynote.db.repository.NoteRepository
 import com.note.mynote.models.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +24,11 @@ class NoteViewModel @Inject constructor(
 ) : ViewModel() {
 
     private lateinit var insertNoteViewModelLiveData: MutableLiveData<Long>
+    private var getNoteListStateFlow: MutableStateFlow<List<Note>> =
+        MutableStateFlow(mutableListOf())
     private lateinit var updateNoteViewModelLiveData: MutableLiveData<Int>
     private lateinit var deleteNoteViewModelLiveData: MutableLiveData<Int>
+
 
     /**
      * Insert method
@@ -42,9 +47,14 @@ class NoteViewModel @Inject constructor(
      * Get note list
      * This method will get note list from database
      */
-    fun getNoteList() = flow {
-        this.emit(repository.noteList())
-        delay(10000)
+    fun getNoteList(): StateFlow<List<Note>> {
+        getNoteListStateFlow = MutableStateFlow(mutableListOf())
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.noteList().collect {
+                getNoteListStateFlow.emit(it)
+            }
+        }
+        return getNoteListStateFlow.asStateFlow()
     }
 
     /**
