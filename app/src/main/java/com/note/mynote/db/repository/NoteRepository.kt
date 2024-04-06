@@ -2,6 +2,7 @@ package com.note.mynote.db.repository
 
 import com.note.mynote.db.NoteDao
 import com.note.mynote.models.Note
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -21,7 +22,7 @@ class NoteRepository @Inject constructor(
     /**
      * Get note list
      */
-    fun noteList(): List<Note> = dao.noteList()
+    fun noteList(): Flow<List<Note>> = dao.noteList()
 
     /**
      * Update note

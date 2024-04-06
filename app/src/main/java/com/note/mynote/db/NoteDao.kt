@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.note.mynote.models.Note
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
@@ -21,7 +22,7 @@ interface NoteDao {
      * Get note list
      */
     @Query("SELECT * FROM tbl_note")
-    fun noteList(): List<Note>
+    fun noteList(): Flow<List<Note>>
 
     /**
      * Update note
