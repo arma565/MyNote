@@ -1,4 +1,4 @@
-package com.note.mynote.models
+package com.note.mynote.data.local.db.models
 
 import android.content.Context
 import android.content.Intent

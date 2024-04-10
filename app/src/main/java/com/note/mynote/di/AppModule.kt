@@ -2,7 +2,7 @@ package com.note.mynote.di
 
 import android.content.Context
 import androidx.room.Room
-import com.note.mynote.db.AppDatabase
+import com.note.mynote.data.local.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

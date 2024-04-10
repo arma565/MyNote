@@ -1,4 +1,4 @@
-package com.note.mynote.db
+package com.note.mynote.data.local.db
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.models.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao

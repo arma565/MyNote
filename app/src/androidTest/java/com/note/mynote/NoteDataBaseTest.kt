@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.note.mynote.db.AppDatabase
-import com.note.mynote.db.NoteDao
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.AppDatabase
+import com.note.mynote.data.local.db.NoteDao
+import com.note.mynote.data.local.db.models.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

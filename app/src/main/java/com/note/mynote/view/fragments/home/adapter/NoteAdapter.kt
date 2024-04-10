@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.note.mynote.R
 import com.note.mynote.databinding.NoteRowBinding
-import com.note.mynote.db.viewmodel.NoteViewModel
-import com.note.mynote.models.GlobalFunctions
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.viewmodel.NoteViewModel
+import com.note.mynote.data.local.db.models.GlobalFunctions
+import com.note.mynote.data.local.db.models.Note
 
 /**
  * recycler adapter

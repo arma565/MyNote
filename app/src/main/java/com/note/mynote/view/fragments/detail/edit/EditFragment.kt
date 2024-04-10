@@ -21,10 +21,10 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentEditBinding
-import com.note.mynote.db.viewmodel.NoteViewModel
-import com.note.mynote.models.GlobalFunctions
-import com.note.mynote.models.IViewNoteResponse
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.viewmodel.NoteViewModel
+import com.note.mynote.data.local.db.models.GlobalFunctions
+import com.note.mynote.data.local.db.models.IViewNoteResponse
+import com.note.mynote.data.local.db.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 

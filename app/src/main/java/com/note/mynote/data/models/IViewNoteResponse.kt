@@ -1,4 +1,4 @@
-package com.note.mynote.models
+package com.note.mynote.data.local.db.models
 
 /**
  * Note event

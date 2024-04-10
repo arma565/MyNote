@@ -22,9 +22,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentDetailsBinding
-import com.note.mynote.db.viewmodel.NoteViewModel
-import com.note.mynote.models.GlobalFunctions
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.viewmodel.NoteViewModel
+import com.note.mynote.data.local.db.models.GlobalFunctions
+import com.note.mynote.data.local.db.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

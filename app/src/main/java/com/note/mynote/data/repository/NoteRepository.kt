@@ -1,7 +1,7 @@
-package com.note.mynote.db.repository
+package com.note.mynote.data.local.db.repository
 
-import com.note.mynote.db.NoteDao
-import com.note.mynote.models.Note
+import com.note.mynote.data.local.db.NoteDao
+import com.note.mynote.data.local.db.models.Note
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

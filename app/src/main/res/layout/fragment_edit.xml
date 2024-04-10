@@ -8,7 +8,7 @@
 
         <variable
             name="note"
-            type="com.note.mynote.models.Note" />
+            type="com.note.mynote.data.local.db.models.Note" />
 
     </data>
 
