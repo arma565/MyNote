@@ -7,8 +7,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.note.mynote.data.local.db.AppDatabase
 import com.note.mynote.data.local.db.NoteDao
 import com.note.mynote.data.local.db.models.Note
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.AfterClass
@@ -53,26 +54,28 @@ class NoteDataBaseTest {
     @Test
     fun testInsertNote_Note_NoteCreateSuccessfully() {
         runBlocking {
-            try {
-                //Arrange
-                val note = Note(
-                    "fgfff",
-                    "dfgdfgdfg",
-                    "dfgdfg",
-                    "sdfsdf"
-                )
-                CoroutineScope(Dispatchers.IO).launch {
+            val completableDeferred = CompletableDeferred<Boolean>()
+            CoroutineScope(IO).launch {
+                try {
+                    //Arrange
+                    val note = Note(
+                        "fgfff",
+                        "dfgdfgdfg",
+                        "dfgdfg",
+                        "sdfsdf"
+                    )
                     //Act
                     dao.insertNote(note)
-                    //Assert
-                    dao.noteList().collect{
-                        Assert.assertTrue(it.isNotEmpty())
+                    dao.noteList().collect {
+                        completableDeferred.complete(it.isNotEmpty())
                     }
-                }
 
-            } catch (e: Exception) {
-                Assert.fail(e.message)
+                } catch (e: Exception) {
+                    Assert.fail(e.message)
+                }
             }
+            //Assert
+            Assert.assertTrue(completableDeferred.await())
         }
     }
 
@@ -82,19 +85,19 @@ class NoteDataBaseTest {
      * Result: Successfully update note in db
      */
     @Test
-    fun testUpdateNote_Note_PropertyUpdateSuccessfully() {
+    fun testUpdateNote_Note_NoteUpdateSuccessfully() {
         runBlocking {
-            try {
-                //Arrange
-                val note = Note(
-                    120,
-                    "fgfff",
-                    "dfgdfgdfg",
-                    "dfgdfg",
-                    "sdfsdf"
-                )
-
-                CoroutineScope(Dispatchers.IO).launch {
+            val completableDeferred = CompletableDeferred<Boolean>()
+            CoroutineScope(IO).launch {
+                try {
+                    //Arrange
+                    val note = Note(
+                        120,
+                        "fgfff",
+                        "dfgdfgdfg",
+                        "dfgdfg",
+                        "sdfsdf"
+                    )
                     //Act
                     dao.insertNote(note)
                     dao.updateNote(
@@ -106,15 +109,15 @@ class NoteDataBaseTest {
                             "04/06/2024"
                         )
                     )
-                    //Assert
-                    dao.noteList().collect{
-                        Assert.assertTrue(it.first().title == "serahi")
+                    dao.noteList().collect {
+                        completableDeferred.complete(it.first().title == "serahi")
                     }
+                } catch (e: Exception) {
+                    Assert.fail(e.message)
                 }
-
-            } catch (e: Exception) {
-                Assert.fail(e.message)
             }
+            //Assert
+            Assert.assertTrue(completableDeferred.await())
         }
     }
 
@@ -126,26 +129,28 @@ class NoteDataBaseTest {
     @Test
     fun testGetNoteList_NoParameter_GetNoteListSuccessfully() {
         runBlocking {
-            try {
-                //Arrange
-                val note = Note(
-                    "fgfff",
-                    "dfgdfgdfg",
-                    "dfgdfg",
-                    "sdfsdf"
-                )
-                CoroutineScope(Dispatchers.IO).launch {
+            val completableDeferred = CompletableDeferred<Boolean>()
+            CoroutineScope(IO).launch {
+                try {
+                    //Arrange
+                    val note = Note(
+                        "fgfff",
+                        "dfgdfgdfg",
+                        "dfgdfg",
+                        "sdfsdf"
+                    )
                     //Act
                     dao.insertNote(note)
-                    //Assert
-                    dao.noteList().collect{
-                        Assert.assertTrue(it.isNotEmpty())
+                    dao.noteList().collect {
+                        completableDeferred.complete(it.isNotEmpty())
                     }
-                }
 
-            } catch (e: Exception) {
-                Assert.fail(e.message)
+                } catch (e: Exception) {
+                    Assert.fail(e.message)
+                }
             }
+            //Assert
+            Assert.assertTrue(completableDeferred.await())
         }
     }
 
@@ -156,30 +161,32 @@ class NoteDataBaseTest {
      */
     @Test
     fun testDeleteNote_ValidNoteId_SuccessfullyDeleteNote() {
-       runBlocking {
-           try {
-               //Arrange
-               val note = Note(
-                   100,
-                   "fgfff",
-                   "dfgdfgdfg",
-                   "dfgdfg",
-                   "sdfsdf"
-               )
-               CoroutineScope(Dispatchers.IO).launch {
-                   //Act
-                   dao.insertNote(note)
-                   dao.deleteNote(note)
-                   //Assert
-                   dao.noteList().collect{noteList->
-                       Assert.assertTrue(noteList.none { it.id == note.id })
-                   }
-               }
+        runBlocking {
+            val completableDeferred = CompletableDeferred<Boolean>()
+            CoroutineScope(IO).launch {
+                try {
+                    //Arrange
+                    val note = Note(
+                        100,
+                        "fgfff",
+                        "dfgdfgdfg",
+                        "dfgdfg",
+                        "sdfsdf"
+                    )
+                    //Act
+                    dao.insertNote(note)
+                    dao.deleteNote(note)
+                    dao.noteList().collect { noteList ->
+                        completableDeferred.complete(noteList.none { it.id == note.id })
+                    }
 
-           } catch (e: Exception) {
-               Assert.fail(e.message)
-           }
-       }
+                } catch (e: Exception) {
+                    Assert.fail(e.message)
+                }
+            }
+            //Assert
+            Assert.assertTrue(completableDeferred.await())
+        }
     }
 
     /**
@@ -190,27 +197,28 @@ class NoteDataBaseTest {
     @Test
     fun testDeleteAllNotes_NoParameter_SuccessfullyDeleteAllNotes() {
         runBlocking {
-            try {
-                //Arrange
-                val note = Note(
-                    100,
-                    "fgfff",
-                    "dfgdfgdfg",
-                    "dfgdfg",
-                    "sdfsdf"
-                )
-                CoroutineScope(Dispatchers.IO).launch {
+            val completableDeferred = CompletableDeferred<Boolean>()
+            CoroutineScope(IO).launch {
+                try {
+                    //Arrange
+                    val note = Note(
+                        "fgfff",
+                        "dfgdfgdfg",
+                        "dfgdfg",
+                        "sdfsdf"
+                    )
                     //Act
                     dao.insertNote(note)
                     dao.deleteAllNotes()
-                    //Assert
-                    dao.noteList().collect{
-                        Assert.assertTrue(it.isEmpty())
+                    dao.noteList().collect {
+                        completableDeferred.complete(it.isEmpty())
                     }
+                } catch (e: Exception) {
+                    Assert.fail(e.message)
                 }
-            } catch (e: Exception) {
-                Assert.fail(e.message)
             }
+            //Assert
+            Assert.assertTrue(completableDeferred.await())
         }
     }
 }
