@@ -1,4 +1,4 @@
-package com.note.mynote.ui.activity
+package com.note.mynote.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.note.mynote.ui.fragments.home.adapter
+package com.note.mynote.view.fragments.home.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.note.mynote.R
 import com.note.mynote.databinding.NoteRowBinding
-import com.note.mynote.data.local.db.viewmodel.NoteViewModel
-import com.note.mynote.data.local.db.models.GlobalFunctions
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.Note
 
 /**
  * recycler adapter

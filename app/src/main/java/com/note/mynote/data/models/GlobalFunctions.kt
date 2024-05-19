@@ -1,4 +1,4 @@
-package com.note.mynote.data.local.db.models
+package com.note.mynote.data.models
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.note.mynote.R
-import com.note.mynote.ui.activity.MainActivity
+import com.note.mynote.view.activity.MainActivity
 
 /**
  * Useful functions

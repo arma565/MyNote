@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.note.mynote.data.local.db.AppDatabase
-import com.note.mynote.data.local.db.NoteDao
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.data.local.AppDatabase
+import com.note.mynote.data.local.NoteDao
+import com.note.mynote.data.models.Note
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -59,10 +59,10 @@ class NoteDataBaseTest {
                 try {
                     //Arrange
                     val note = Note(
-                        "fgfff",
-                        "dfgdfgdfg",
-                        "dfgdfg",
-                        "sdfsdf"
+                        title = "fgfff",
+                        description = "dfgdfgdfg",
+                        time = "dfgdfg",
+                        date = "sdfsdf"
                     )
                     //Act
                     dao.insertNote(note)
@@ -134,10 +134,10 @@ class NoteDataBaseTest {
                 try {
                     //Arrange
                     val note = Note(
-                        "fgfff",
-                        "dfgdfgdfg",
-                        "dfgdfg",
-                        "sdfsdf"
+                        title = "fgfff",
+                       description =  "dfgdfgdfg",
+                        time = "dfgdfg",
+                        date = "sdfsdf"
                     )
                     //Act
                     dao.insertNote(note)
@@ -202,10 +202,10 @@ class NoteDataBaseTest {
                 try {
                     //Arrange
                     val note = Note(
-                        "fgfff",
-                        "dfgdfgdfg",
-                        "dfgdfg",
-                        "sdfsdf"
+                        title = "Grown",
+                        description = "dfgdfg",
+                       time =  "20:48",
+                       date =  "2024/04/01"
                     )
                     //Act
                     dao.insertNote(note)

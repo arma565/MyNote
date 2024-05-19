@@ -1,4 +1,4 @@
-package com.note.mynote.ui.fragments.detail.edit
+package com.note.mynote.view.fragments.detail.edit
 
 import android.content.Context
 import android.os.Build
@@ -21,10 +21,10 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentEditBinding
-import com.note.mynote.data.local.db.viewmodel.NoteViewModel
-import com.note.mynote.data.local.db.models.GlobalFunctions
-import com.note.mynote.data.local.db.models.IViewNoteResponse
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.IViewNoteResponse
+import com.note.mynote.data.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
@@ -71,14 +71,9 @@ class EditFragment : Fragment(), IViewNoteResponse {
                 menu.clear()
                 menuInflater.inflate(R.menu.note_edit, menu)
 
-                val itemTime: MenuItem = menu.findItem(R.id.item_time)
-                val itemDate: MenuItem = menu.findItem(R.id.item_date)
-                val itemSave: MenuItem = menu.findItem(R.id.item_save)
-                val itemClearAll: MenuItem = menu.findItem(R.id.item_clearAll)
-
                 val dt = DateTime()
 
-                itemTime.setOnMenuItemClickListener {
+                menu.findItem(R.id.item_time).setOnMenuItemClickListener {
                     val mHour = dt.hourOfDay
                     val mMin = dt.minuteOfHour
                     val materialTimePicker: MaterialTimePicker = MaterialTimePicker.Builder()
@@ -96,7 +91,7 @@ class EditFragment : Fragment(), IViewNoteResponse {
                     true
                 }
 
-                itemDate.setOnMenuItemClickListener {
+                menu.findItem(R.id.item_date).setOnMenuItemClickListener {
                     val materialDatePicker = MaterialDatePicker.Builder.datePicker()
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .setTitleText(getString(R.string.set_date))
@@ -110,7 +105,7 @@ class EditFragment : Fragment(), IViewNoteResponse {
                     true
                 }
 
-                itemSave.setOnMenuItemClickListener {
+                menu.findItem(R.id.item_save).setOnMenuItemClickListener {
                     val title = binding.edtTitle.text.toString()
                     val description = binding.edtDescription.text.toString()
                     val note = Note(note.id, title, description, time, date)
@@ -122,7 +117,7 @@ class EditFragment : Fragment(), IViewNoteResponse {
                     true
                 }
 
-                itemClearAll.setOnMenuItemClickListener {
+                menu.findItem(R.id.item_clearAll).setOnMenuItemClickListener {
                     binding.edtTitle.setText("")
                     binding.edtDescription.setText("")
                     true

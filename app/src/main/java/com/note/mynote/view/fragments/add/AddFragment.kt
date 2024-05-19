@@ -1,4 +1,4 @@
-package com.note.mynote.ui.fragments.add
+package com.note.mynote.view.fragments.add
 
 import android.content.Context
 import android.os.Bundle
@@ -16,10 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentAddBinding
-import com.note.mynote.data.local.db.viewmodel.NoteViewModel
-import com.note.mynote.data.local.db.models.GlobalFunctions
-import com.note.mynote.data.local.db.models.IViewNoteResponse
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.IViewNoteResponse
+import com.note.mynote.data.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
@@ -64,7 +64,7 @@ class AddFragment : Fragment(), IViewNoteResponse {
                 menu.findItem(R.id.item_save).setOnMenuItemClickListener {
                     val title: String = binding.edtTitle.text.toString()
                     val description: String = binding.edtDescription.text.toString()
-                    val note = Note(title, description, time, date)
+                    val note = Note(title = title, description = description, time =  time, date =  date)
                     if (GlobalFunctions.validateNote(note, this@AddFragment)) {
                         noteViewModel.insertNote(note).observe(owner) { res ->
                             GlobalFunctions.getResult(requireActivity() as AppCompatActivity, res)

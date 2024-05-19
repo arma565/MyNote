@@ -1,4 +1,4 @@
-package com.note.mynote.data.local.db.models
+package com.note.mynote.data.models
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -18,11 +18,4 @@ data class Note(
     var time: String? = "",
     @ColumnInfo(name = "date", defaultValue = "")
     var date: String? = ""
-) : Parcelable {
-    constructor(title: String, description: String, time: String, date: String) : this() {
-        this.title = title
-        this.description = description
-        this.time = time
-        this.date = date
-    }
-}
+) : Parcelable

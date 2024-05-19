@@ -1,11 +1,11 @@
-package com.note.mynote.data.local.db.viewmodel
+package com.note.mynote.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.note.mynote.data.local.db.repository.NoteRepository
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.data.repository.NoteRepository
+import com.note.mynote.data.models.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

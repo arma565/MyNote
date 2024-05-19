@@ -1,4 +1,4 @@
-package com.note.mynote.ui.fragments.home
+package com.note.mynote.view.fragments.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,10 +19,10 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentHomeBinding
-import com.note.mynote.data.local.db.viewmodel.NoteViewModel
-import com.note.mynote.data.local.db.models.GlobalFunctions
-import com.note.mynote.data.local.db.models.Note
-import com.note.mynote.ui.fragments.home.adapter.NoteAdapter
+import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.Note
+import com.note.mynote.view.fragments.home.adapter.NoteAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

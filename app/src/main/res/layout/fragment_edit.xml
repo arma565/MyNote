@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.detail.edit.EditFragment">
+    tools:context=".view.fragments.detail.edit.EditFragment">
 
     <data>
 
         <variable
             name="note"
-            type="com.note.mynote.data.local.db.models.Note" />
+            type="com.note.mynote.data.models.Note" />
 
     </data>
 

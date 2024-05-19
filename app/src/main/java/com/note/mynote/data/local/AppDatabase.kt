@@ -1,8 +1,8 @@
-package com.note.mynote.data.local.db
+package com.note.mynote.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.data.models.Note
 
 /**
  * App Database

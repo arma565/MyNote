@@ -1,4 +1,4 @@
-package com.note.mynote.ui.fragments.detail
+package com.note.mynote.view.fragments.detail
 
 import android.content.Context
 import android.content.Intent
@@ -22,9 +22,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.note.mynote.R
 import com.note.mynote.databinding.FragmentDetailsBinding
-import com.note.mynote.data.local.db.viewmodel.NoteViewModel
-import com.note.mynote.data.local.db.models.GlobalFunctions
-import com.note.mynote.data.local.db.models.Note
+import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.Note
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
