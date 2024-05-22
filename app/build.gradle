@@ -37,12 +37,12 @@ android {
     }
 
     buildFeatures {
-        compose true
-        dataBinding true
-        viewBinding true
+        compose = true
+        dataBinding =  true
+        viewBinding = true
     }
     composeOptions{
-        kotlinCompilerExtensionVersion = libs.versions.compose
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
@@ -78,11 +78,18 @@ dependencies {
     implementation libs.coroutine.core
 
     //Compose
-    implementation libs.androidx.compose
+    implementation libs.androidx.compose.material3
+    implementation libs.androidx.compose.constraint.layout
     implementation libs.androidx.compose.compiler
     implementation libs.androidx.compose.ui
     implementation libs.androidx.compose.activity
+    implementation libs.androidx.compose.viewmodel
+    implementation libs.androidx.compose.livedata
+    implementation libs.androidx.compose.icons.core
+    implementation libs.androidx.compose.icons.extended
+    implementation libs.androidx.compose.window.size
     debugImplementation libs.androidx.compose.debug
+    debugImplementation libs.androidx.compose.ui.debug
 
     // Lifecycle ViewModel
     implementation libs.androidx.lifecycle.viewmodel

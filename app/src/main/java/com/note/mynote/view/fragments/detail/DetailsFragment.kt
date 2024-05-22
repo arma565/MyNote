@@ -82,9 +82,8 @@ class DetailsFragment : Fragment() {
                     alertDialog.setTitle(getString(R.string.delete))
                     alertDialog.setMessage(R.string.are_you_sure)
                     alertDialog.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                        noteVieModel.deleteNote(note).observe(owner) { res ->
-                            GlobalFunctions.getResult(mainActivity, res.toLong())
-                        }
+                        noteVieModel.deleteNote(note)
+                        GlobalFunctions.getResult(mainActivity,1)
                     }
                     alertDialog.setNegativeButton(getString(R.string.no)) { _, _ -> }
                     alertDialog.show()

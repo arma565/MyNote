@@ -35,4 +35,6 @@
     <string name="date">Date</string>
     <string name="set_time">Set Time</string>
     <string name="set_date">Set Date</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

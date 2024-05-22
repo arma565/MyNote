@@ -6,4 +6,5 @@ package com.note.mynote.data.models
 interface IViewNoteResponse {
     fun onEmptyTitle()
     fun onEmptyDescription()
+    fun onEmptyTitleAndDescription()
 }

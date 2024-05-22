@@ -20,8 +20,8 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.note.mynote.view.fragments.add.AddFragment"
-        android:label="fragment_add"
-        tools:layout="@layout/fragment_add" >
+        android:label="fragment_add">
+
         <action
             android:id="@+id/action_addFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

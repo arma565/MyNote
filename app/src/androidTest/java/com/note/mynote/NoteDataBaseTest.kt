@@ -65,7 +65,7 @@ class NoteDataBaseTest {
                         date = "sdfsdf"
                     )
                     //Act
-                    dao.insertNote(note)
+                    dao.upsertNote(note)
                     dao.noteList().collect {
                         completableDeferred.complete(it.isNotEmpty())
                     }
@@ -99,8 +99,8 @@ class NoteDataBaseTest {
                         "sdfsdf"
                     )
                     //Act
-                    dao.insertNote(note)
-                    dao.updateNote(
+                    dao.upsertNote(note)
+                    dao.upsertNote(
                         Note(
                             120,
                             "serahi",
@@ -140,7 +140,7 @@ class NoteDataBaseTest {
                         date = "sdfsdf"
                     )
                     //Act
-                    dao.insertNote(note)
+                    dao.upsertNote(note)
                     dao.noteList().collect {
                         completableDeferred.complete(it.isNotEmpty())
                     }
@@ -174,7 +174,7 @@ class NoteDataBaseTest {
                         "sdfsdf"
                     )
                     //Act
-                    dao.insertNote(note)
+                    dao.upsertNote(note)
                     dao.deleteNote(note)
                     dao.noteList().collect { noteList ->
                         completableDeferred.complete(noteList.none { it.id == note.id })
@@ -208,7 +208,7 @@ class NoteDataBaseTest {
                        date =  "2024/04/01"
                     )
                     //Act
-                    dao.insertNote(note)
+                    dao.upsertNote(note)
                     dao.deleteAllNotes()
                     dao.noteList().collect {
                         completableDeferred.complete(it.isEmpty())

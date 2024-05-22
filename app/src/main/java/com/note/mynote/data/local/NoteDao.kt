@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import com.note.mynote.data.models.Note
 import kotlinx.coroutines.flow.Flow
 
@@ -13,10 +14,10 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     /**
-     * Insert note
+     * Insert or update note
      */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(note: Note): Long
+    @Upsert
+    suspend fun upsertNote(note: Note)
 
     /**
      * Get note list
@@ -25,16 +26,10 @@ interface NoteDao {
     fun noteList(): Flow<List<Note>>
 
     /**
-     * Update note
-     */
-    @Update
-    suspend fun updateNote(note: Note): Int
-
-    /**
      * Delete note
      */
     @Delete
-    suspend fun deleteNote(note: Note) : Int
+    suspend fun deleteNote(note: Note)
 
     /**
      * Delete all notes

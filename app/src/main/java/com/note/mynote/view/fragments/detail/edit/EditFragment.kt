@@ -108,11 +108,10 @@ class EditFragment : Fragment(), IViewNoteResponse {
                 menu.findItem(R.id.item_save).setOnMenuItemClickListener {
                     val title = binding.edtTitle.text.toString()
                     val description = binding.edtDescription.text.toString()
-                    val note = Note(note.id, title, description, time, date)
+                    val updatedNote = Note(note.id, title, description, time, date)
                     if (GlobalFunctions.validateNote(note, this@EditFragment)) {
-                        noteViewModel.updateNote(note).observe(owner) { res ->
-                            GlobalFunctions.getResult(myActivity, res.toLong())
-                        }
+                        noteViewModel.upsertNote(updatedNote)
+                        GlobalFunctions.getResult(myActivity, 1)
                     }
                     true
                 }
@@ -143,5 +142,9 @@ class EditFragment : Fragment(), IViewNoteResponse {
 
     override fun onEmptyDescription() {
         binding.edtDescription.error = getString(R.string.description_require)
+    }
+
+    override fun onEmptyTitleAndDescription() {
+
     }
 }
