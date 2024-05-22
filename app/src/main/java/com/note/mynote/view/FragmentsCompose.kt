@@ -221,7 +221,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit) {
+fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit , onDetailsClick : (note: Note) -> Unit) {
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -353,7 +353,9 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
                                     disabledContainerColor = Color.Gray
                                 ),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                                onClick = {}) {
+                                onClick = {
+                                    onDetailsClick(noteFilterList)
+                                }) {
                                 Row {
                                     ConstraintLayout(
                                         modifier = Modifier
@@ -408,7 +410,9 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
                                 disabledContainerColor = Color.Gray
                             ),
                             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                            onClick = {}) {
+                            onClick = {
+                                onDetailsClick(note)
+                            }) {
                             Row {
                                 ConstraintLayout(
                                     modifier = Modifier

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.note.mynote.R
@@ -31,10 +32,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navigation =  GlobalFunctions.getNavControllerFragmentNote(requireActivity())
         homeComposeView.setContent {
-            HomeFragmentComposeView(noteViewModel) {
-                GlobalFunctions.getNavControllerFragmentNote(requireActivity())
-                    .navigate(R.id.action_homeFragment_to_addFragment)
+            HomeFragmentComposeView(noteViewModel , onAddClick = {
+                    navigation.navigate(R.id.action_homeFragment_to_addFragment)
+            }) {
+                navigation.navigate(R.id.action_homeFragment_to_detailsFragment , bundleOf("note" to it))
             }
         }
     }
