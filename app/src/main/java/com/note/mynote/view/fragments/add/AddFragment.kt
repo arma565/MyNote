@@ -1,17 +1,13 @@
 package com.note.mynote.view.fragments.add
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,59 +22,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import com.note.mynote.R
 import com.note.mynote.data.models.GlobalFunctions
 import com.note.mynote.data.models.IViewNoteResponse
 import com.note.mynote.data.models.Note
-import com.note.mynote.viewmodel.NoteViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
 /**
  * Add note
  */
-@AndroidEntryPoint
-class AddFragment : Fragment() {
-    private lateinit var addFragmentComposeView: ComposeView
-    private val noteViewModel: NoteViewModel by viewModels()
-    private lateinit var owner: LifecycleOwner
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        owner = this
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).also {
-            addFragmentComposeView = it
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        addFragmentComposeView.setContent {
-            AddFragmentComposeView(onSave = {
-                noteViewModel.upsertNote(it)
-                GlobalFunctions.getResult(requireActivity() as AppCompatActivity, 1)
-            })
-        }
-    }
-}
-
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
@@ -138,7 +94,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
 
                         }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_save_24),
+                                imageVector = Icons.Filled.Save,
                                 contentDescription = stringResource(
                                     id = R.string.save_data
                                 )
@@ -152,7 +108,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
                             descriptionError = false
                         }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_clear_all_24),
+                                imageVector = Icons.Filled.ClearAll,
                                 contentDescription = stringResource(
                                     id = R.string.clear
                                 )
@@ -191,8 +147,6 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
                                 modifier = Modifier.fillMaxWidth(),
                                 color = MaterialTheme.colorScheme.error
                             )
-                        } else {
-                            Text(text = "")
                         }
                     },
                     trailingIcon = {
@@ -238,3 +192,4 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
         }
     }
 }
+

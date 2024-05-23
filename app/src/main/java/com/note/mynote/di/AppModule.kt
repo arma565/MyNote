@@ -1,6 +1,7 @@
 package com.note.mynote.di
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.note.mynote.data.local.AppDatabase
 import com.note.mynote.data.local.NoteDao
@@ -36,4 +37,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepositoryImp(noteDao: NoteDao) : IRepository = NoteRepositoryImp(noteDao)
+
+    @Provides
+    fun provideSaveStateHandle() : SavedStateHandle = SavedStateHandle()
 }
