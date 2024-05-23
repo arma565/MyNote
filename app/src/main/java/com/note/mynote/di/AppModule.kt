@@ -37,7 +37,4 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepositoryImp(noteDao: NoteDao) : IRepository = NoteRepositoryImp(noteDao)
-
-    @Provides
-    fun provideSaveStateHandle() : SavedStateHandle = SavedStateHandle()
 }

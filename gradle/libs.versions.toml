@@ -3,9 +3,7 @@
 coreKtx = "1.13.1"
 appcompat = "1.6.1"
 material = "1.12.0"
-constraintlayout = "2.1.4"
 androidxNavigation = "2.7.7"
-preference = "1.2.1"
 joda = "2.12.7"
 core = "1.5.0"
 junitVersion = "1.1.5"
@@ -21,7 +19,6 @@ composeConstraintLayout = "1.0.1"
 composeCompiler = "1.5.14"
 composeActivity = "1.9.0"
 composeViewModel = "2.8.0"
-serialization = "1.6.3"
 espressoCore = "3.5.1"
 
 ## Plugins versions
@@ -30,17 +27,12 @@ kotlin = "1.9.24"
 navigation = "2.7.7"
 hilt = "2.51.1"
 ksp = "1.9.24-1.0.20"
-kapt = "1.9.24"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidxNavigation" }
-androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidxNavigation" }
-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 joda-time = { group = "net.danlew", name = "android.joda", version.ref = "joda" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "core" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -85,7 +77,6 @@ androidx-compose-icons-core = { group = "androidx.compose.material", name = "mat
 androidx-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
 androidx-compose-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "composeMaterial3" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -93,8 +84,6 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 android-library = { id = "com.android.library", version.ref = "agp" }
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 hilt-dagger = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 
