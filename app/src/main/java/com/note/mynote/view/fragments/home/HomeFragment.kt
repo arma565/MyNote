@@ -1,9 +1,5 @@
 package com.note.mynote.view.fragments.home
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -11,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -42,7 +39,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
@@ -50,49 +46,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.note.mynote.R
-import com.note.mynote.data.models.GlobalFunctions
 import com.note.mynote.data.models.Note
 import com.note.mynote.viewmodel.NoteViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-
-
-@AndroidEntryPoint
-class HomeFragment : Fragment() {
-
-    private lateinit var homeComposeView: ComposeView
-    private val noteViewModel: NoteViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        return ComposeView(requireContext()).also {
-            homeComposeView = it
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val navigation =  GlobalFunctions.getNavControllerFragmentNote(requireActivity())
-        homeComposeView.setContent {
-            HomeFragmentComposeView(noteViewModel , onAddClick = {
-                navigation.navigate(R.id.action_homeFragment_to_addFragment)
-            }) {
-                navigation.navigate(R.id.action_homeFragment_to_detailsFragment , bundleOf("note" to it))
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit , onDetailsClick : (note: Note) -> Unit) {
+fun HomeFragmentComposeView(
+    noteViewModel: NoteViewModel,
+    onAddClick: () -> Unit,
+    onDetailsClick: (id: Int) -> Unit
+) {
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -209,8 +174,9 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
                         }
                         return@SearchBar
                     }
+                    //SearchBar
                     LazyColumn {
-                        items(filterList) { noteFilterList ->
+                        items(filterList) { filterNote ->
                             ElevatedCard(modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth()
@@ -225,37 +191,15 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
                                 ),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                                 onClick = {
-                                    onDetailsClick(noteFilterList)
+                                    onDetailsClick(filterNote.id)
                                 }) {
-                                Row {
-                                    ConstraintLayout(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(5.dp)
-                                    ) {
-                                        val (titleConst, dateTimeConst) = createRefs()
-                                        Text(modifier = Modifier.constrainAs(titleConst) {
-                                            top.linkTo(parent.top)
-                                            start.linkTo(parent.start)
-                                            bottom.linkTo(parent.bottom)
-                                        }, text = noteFilterList.title!!)
-                                        Row(modifier = Modifier.constrainAs(dateTimeConst) {
-                                            top.linkTo(parent.top)
-                                            end.linkTo(parent.end)
-                                            bottom.linkTo(parent.bottom)
-                                        }) {
-                                            Text(text = noteFilterList.date!!)
-                                            Text(text = noteFilterList.time!!)
-                                        }
-                                    }
-                                }
+                                NoteLazyColumn(filterNote)
                             }
                         }
-
                     }
                 }
 
-
+                //Home
                 val noteList: List<Note> = noteViewModel.getNoteList.collectAsState().value
                 LazyColumn(
                     modifier = Modifier
@@ -282,30 +226,9 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
                             ),
                             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                             onClick = {
-                                onDetailsClick(note)
+                                onDetailsClick(note.id)
                             }) {
-                            Row {
-                                ConstraintLayout(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(5.dp)
-                                ) {
-                                    val (titleConst, dateTimeConst) = createRefs()
-                                    Text(modifier = Modifier.constrainAs(titleConst) {
-                                        top.linkTo(parent.top)
-                                        start.linkTo(parent.start)
-                                        bottom.linkTo(parent.bottom)
-                                    }, text = note.title!!)
-                                    Row(modifier = Modifier.constrainAs(dateTimeConst) {
-                                        top.linkTo(parent.top)
-                                        end.linkTo(parent.end)
-                                        bottom.linkTo(parent.bottom)
-                                    }) {
-                                        Text(text = note.date!!)
-                                        Text(text = note.time!!)
-                                    }
-                                }
-                            }
+                            NoteLazyColumn(note)
                         }
                     }
                 }
@@ -315,7 +238,37 @@ fun HomeFragmentComposeView(noteViewModel: NoteViewModel, onAddClick: () -> Unit
 }
 
 @Composable
-fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> Unit) {
+private fun NoteLazyColumn(note: Note) {
+    Row {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(5.dp)
+        ) {
+            val (titleConst, dateTimeConst) = createRefs()
+            Text(modifier = Modifier.constrainAs(titleConst) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                bottom.linkTo(parent.bottom)
+            }, text = note.title!!)
+            Row(modifier = Modifier.constrainAs(dateTimeConst) {
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom)
+            }) {
+                Text(
+                    modifier = Modifier.padding(end = 5.dp),
+                    text = note.date!!
+                )
+                Text(text = note.time!!)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> Unit) {
     AlertDialog(icon = {
         Icon(
             Icons.Filled.Info,

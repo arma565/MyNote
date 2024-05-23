@@ -19,7 +19,7 @@ interface NoteDao {
     /**
      * Get note list
      */
-    @Query("SELECT * FROM tbl_note")
+    @Query("SELECT * FROM tbl_note ORDER BY id DESC")
     fun noteList(): Flow<List<Note>>
 
     /**

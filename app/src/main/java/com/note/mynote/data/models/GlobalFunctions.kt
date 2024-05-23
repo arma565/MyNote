@@ -3,6 +3,7 @@ package com.note.mynote.data.models
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.FragmentActivity
@@ -42,7 +43,7 @@ object GlobalFunctions {
         }
     }
 
-    fun getResult(activity: AppCompatActivity, res: Long) {
+    fun getResult(activity: ComponentActivity, res: Long) {
         if (res > 0) {
             activity.finish()
             val intentMain = Intent(activity, MainActivity::class.java)
@@ -60,6 +61,6 @@ object GlobalFunctions {
         android.R.anim.fade_out
     ).toBundle()
 
-    fun getNavControllerFragmentNote(activity: FragmentActivity) =
-        (activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerNote) as NavHostFragment).navController
+/*    fun getNavControllerFragmentNote(activity: FragmentActivity) =
+        (activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerNote) as NavHostFragment).navController*/
 }
