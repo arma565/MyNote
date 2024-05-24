@@ -11,12 +11,8 @@
         android:theme="@style/Theme.MyNote">
         <activity
             android:name=".view.activity.MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.MyNote" />
-        <activity
-            android:name=".view.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MyNote" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

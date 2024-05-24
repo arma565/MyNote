@@ -166,11 +166,13 @@ fun HomeFragmentComposeView(
                     }
                     if (text.isEmpty()) {
                         historyList.forEach {
-                            Row(modifier = Modifier.padding(all = 14.dp)) {
+                            Row(modifier = Modifier
+                                .padding(all = 14.dp)
+                                .clickable { text = it.title!! }) {
                                 Icon(
                                     modifier = Modifier.padding(end = 10.dp),
                                     imageVector = Icons.Default.History,
-                                    contentDescription = "History Icon"
+                                    contentDescription = "History Icon",
                                 )
                                 Text(text = it.title!!)
                             }
@@ -203,7 +205,8 @@ fun HomeFragmentComposeView(
                 }
 
                 //Home
-                val noteList: List<Note> = noteViewModel.getNoteList.collectAsState().value
+                val noteList: List<Note> =
+                    noteViewModel.getNoteList.collectAsState().value
                 LazyColumn(
                     modifier = Modifier
                         .constrainAs(lazyColumn) {
@@ -239,6 +242,7 @@ fun HomeFragmentComposeView(
         }
     }
 }
+
 @Composable
 private fun NoteLazyColumn(note: Note) {
     Row {

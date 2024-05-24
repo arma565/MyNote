@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
                         })
                     ) { navBackStackEntry ->
                         val noteId = navBackStackEntry.arguments?.getInt("id")
-                        noteViewModel.getSpecificNote(noteId!!)
-                        val note: Note = noteViewModel.getNote
+                        val note : Note = noteViewModel.getSpecificNote(noteId!!)
                         if (note != Note()) {
                             DetailsFragmentComposeView(
                                 noteViewModel = noteViewModel,
@@ -96,8 +95,7 @@ class MainActivity : AppCompatActivity() {
                         })
                     ) { navBackStackEntry ->
                         val noteId = navBackStackEntry.arguments?.getInt("id")
-                        noteViewModel.getSpecificNote(noteId!!)
-                        val note: Note = noteViewModel.getNote
+                        val note: Note =  noteViewModel.getSpecificNote(noteId!!)
                         if (note != Note()) {
                             EditFragmentComposeView(
                                 context = applicationContext,

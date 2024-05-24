@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTimeFilled
 import androidx.compose.material.icons.filled.ClearAll
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Save
@@ -200,6 +201,16 @@ fun EditFragmentComposeView(
                             }
                         },
                         trailingIcon = {
+                            if (titleInput!!.isNotEmpty()) {
+                                IconButton(onClick = {
+                                    titleInput = ""
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Close"
+                                    )
+                                }
+                            }
                             if (titleError) {
                                 Icon(
                                     Icons.Filled.Info,
@@ -229,6 +240,13 @@ fun EditFragmentComposeView(
                                 )
                             }
                         }, trailingIcon = {
+                            if (descriptionInput!!.isNotEmpty()){
+                                IconButton(onClick = {
+                                    descriptionInput = ""
+                                }) {
+                                    Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
+                                }
+                            }
                             if (descriptionError) {
                                 Icon(
                                     Icons.Filled.Info,

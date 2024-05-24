@@ -43,14 +43,6 @@ android {
     composeOptions{
         kotlinCompilerExtensionVersion = "1.5.14"
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    packaging {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
@@ -62,21 +54,18 @@ dependencies {
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.test.core
     implementation libs.androidx.junit
-    implementation libs.androidx.lifecycle.runtime.ktx
-    implementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.ui
     implementation libs.androidx.ui.graphics
     testImplementation libs.junit
     androidTestImplementation libs.junit
     androidTestImplementation libs.androidx.test.core
     androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.ui.test.junit4
+    debugImplementation libs.androidx.ui.test.manifest
 
     //room
     implementation(libs.room)
     implementation(libs.room.ktx)
-    androidTestImplementation platform(libs.androidx.compose.bom)
-    androidTestImplementation libs.androidx.ui.test.junit4
-    debugImplementation libs.androidx.ui.test.manifest
     ksp(libs.room.compiler.ksp)
 
     //dagger hilt
@@ -99,11 +88,15 @@ dependencies {
     implementation libs.androidx.compose.icons.extended
     implementation libs.androidx.compose.window.size
     implementation libs.androidx.compose.navigation
+    implementation libs.androidx.lifecycle.runtime.compose
     debugImplementation libs.androidx.compose.debug
     debugImplementation libs.androidx.compose.ui.debug
+    implementation platform(libs.androidx.compose.bom)
+    androidTestImplementation platform(libs.androidx.compose.bom)
 
     // Lifecycle ViewModel
     implementation libs.androidx.lifecycle.viewmodel
     // Lifecycle LiveData
     implementation libs.androidx.lifecycle.livedata
+    implementation libs.androidx.lifecycle.runtime.ktx
 }
