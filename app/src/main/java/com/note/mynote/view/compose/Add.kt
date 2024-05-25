@@ -49,6 +49,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
     val dt = DateTime()
     val time = "${dt.hourOfDay}:${dt.minuteOfHour}"
     val date = "${dt.year}/${dt.monthOfYear}/${dt.dayOfMonth}"
+
     Scaffold(topBar = {
         TopAppBar(title = { Text(stringResource(R.string.add), fontWeight = FontWeight.Bold) },
             actions = {

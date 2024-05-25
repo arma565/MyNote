@@ -41,6 +41,7 @@ fun DetailsFragmentComposeView(
     onHomeClick: () -> Unit,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
+
     if (showDialog) {
         DeleteDialogDetails(note, noteViewModel, onHomeClick = { onHomeClick() }) {
             showDialog = false
@@ -73,7 +74,9 @@ fun DetailsFragmentComposeView(
                 }
             )
         }) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(modifier = Modifier
+            .padding(innerPadding)
+            ) {
             Text(
                 modifier = Modifier
                     .fillMaxSize()

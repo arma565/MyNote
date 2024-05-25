@@ -1,9 +1,12 @@
 package com.note.mynote.view.compose
 
-import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
@@ -13,31 +16,40 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.fragment.app.FragmentManager
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.note.mynote.R
 import com.note.mynote.data.models.GlobalFunctions
 import com.note.mynote.data.models.IViewNoteResponse
 import com.note.mynote.data.models.Note
 import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
 
 /**
  * Edit note
@@ -45,20 +57,26 @@ import org.joda.time.DateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditFragmentComposeView(
-    context: Context,
-    parentFragmentManager: FragmentManager,
     note: Note,
     onSave: (note: Note) -> Unit
 ) {
+    var time = ""
+    var date = ""
+
+    val dateT = DateTime()
+    val timePickerState = rememberTimePickerState(dateT.hourOfDay, dateT.minuteOfHour, true)
+    var showTimePicker by rememberSaveable { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState(dateT.millis)
+    var showDatePicker by remember { mutableStateOf(false) }
+
+
     var titleInput by rememberSaveable { mutableStateOf(note.title) }
     var descriptionInput by rememberSaveable { mutableStateOf(note.description) }
 
     var titleError by rememberSaveable { mutableStateOf(false) }
     var descriptionError by rememberSaveable { mutableStateOf(false) }
 
-    val dt = DateTime()
-    var time: String = note.time!!
-    var date: String = note.date!!
+
 
     Scaffold(
         topBar = {
@@ -66,25 +84,7 @@ fun EditFragmentComposeView(
                 Text(text = stringResource(id = R.string.edit))
             }, actions = {
                 IconButton(onClick = {
-                    val mHour = dt.hourOfDay
-                    val mMin = dt.minuteOfHour
-                    val materialTimePicker: MaterialTimePicker =
-                        MaterialTimePicker.Builder()
-                            .setTimeFormat(TimeFormat.CLOCK_12H)
-                            .setTimeFormat(TimeFormat.CLOCK_24H)
-                            .setHour(mHour)
-                            .setMinute(mMin)
-                            .setTitleText(context.getString(R.string.set_time))
-                            .setPositiveButtonText(context.getString(R.string.ok))
-                            .build()
-                    materialTimePicker.addOnPositiveButtonClickListener {
-                        time = "${materialTimePicker.hour}:${materialTimePicker.minute}"
-                    }
-                    materialTimePicker.show(
-                        parentFragmentManager,
-                        context.getString(R.string.time)
-                    )
-
+                    showTimePicker = true
                 }) {
                     Icon(
                         imageVector = Icons.Filled.AccessTimeFilled,
@@ -94,20 +94,7 @@ fun EditFragmentComposeView(
                     )
                 }
                 IconButton(onClick = {
-                    val materialDatePicker = MaterialDatePicker.Builder.datePicker()
-                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                        .setTitleText(context.getString(R.string.date))
-                        .setPositiveButtonText("Ok")
-                        .build()
-                    materialDatePicker.addOnPositiveButtonClickListener { newDt ->
-                        val newDate = DateTime(newDt)
-                        date =
-                            "${newDate.year}/${newDate.monthOfYear}/${newDate.dayOfMonth}"
-                    }
-                    materialDatePicker.show(
-                        parentFragmentManager,
-                        context.getString(R.string.date)
-                    )
+                    showDatePicker = true
                 }) {
                     Icon(
                         imageVector = Icons.Filled.DateRange,
@@ -117,6 +104,12 @@ fun EditFragmentComposeView(
                     )
                 }
                 IconButton(onClick = {
+                    if (time.isEmpty()) {
+                        time = note.time!!
+                    }
+                    if (date.isEmpty()) {
+                        date = note.date!!
+                    }
                     val updatedNote = Note(
                         note.id,
                         titleInput,
@@ -170,6 +163,58 @@ fun EditFragmentComposeView(
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
+
+            if (showTimePicker) {
+                ShowDateTimeDialog(
+                    onDismissRequest = {
+                        showTimePicker = false
+                    },
+                    onConfirmButton = {
+                        TextButton(onClick = {
+                            time = "${timePickerState.hour}:${timePickerState.minute}"
+                            showTimePicker = false
+                        }) {
+                            Text(text = "Confirm")
+                        }
+                    },
+                    onDismissButton = {
+                        TextButton(onClick = {
+                            showTimePicker = false
+                        }) {
+                            Text(text = "Cancel")
+                        }
+                    }
+                ) {
+                    TimePicker(state = timePickerState)
+                }
+            }
+            if (showDatePicker) {
+                ShowDateTimeDialog(
+                    onDismissRequest = {
+                        showDatePicker = false
+                    },
+                    onConfirmButton = {
+                        TextButton(onClick = {
+                            DateTimeUtils.setCurrentMillisFixed(datePickerState.selectedDateMillis!!)
+                            val dt = DateTime()
+                            date = "${dt.year}/${dt.monthOfYear}/${dt.dayOfMonth}"
+                            showDatePicker = false
+                        }) {
+                            Text(text = "Confirm")
+                        }
+                    },
+                    onDismissButton = {
+                        TextButton(onClick = {
+                            showDatePicker = false
+                        }) {
+                            Text(text = "Cancel")
+                        }
+                    }
+                ) {
+                    DatePicker(state = datePickerState)
+                }
+            }
+
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val (inputConst) = createRefs()
                 ConstraintLayout(modifier = Modifier
@@ -240,11 +285,14 @@ fun EditFragmentComposeView(
                                 )
                             }
                         }, trailingIcon = {
-                            if (descriptionInput!!.isNotEmpty()){
+                            if (descriptionInput!!.isNotEmpty()) {
                                 IconButton(onClick = {
                                     descriptionInput = ""
                                 }) {
-                                    Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Close"
+                                    )
                                 }
                             }
                             if (descriptionError) {
@@ -256,6 +304,50 @@ fun EditFragmentComposeView(
                             }
                         },
                         label = { Text(text = stringResource(id = R.string.description)) })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShowDateTimeDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmButton: @Composable () -> Unit,
+    onDismissButton: @Composable (() -> Unit)? = null,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    content: @Composable () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
+        Surface(
+            shape = MaterialTheme.shapes.extraLarge,
+            tonalElevation = 6.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = containerColor
+                ), color = containerColor
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                content()
+                Row(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    onDismissButton?.invoke()
+                    onConfirmButton()
                 }
             }
         }
