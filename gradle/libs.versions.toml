@@ -19,7 +19,6 @@ composeConstraintLayout = "1.0.1"
 composeCompiler = "1.5.14"
 composeActivity = "1.9.0"
 lifeCycleCompose = "2.8.0"
-ioDialogDateTime = "0.8.1-rc"
 espressoCore = "3.5.1"
 
 ## Plugins versions
