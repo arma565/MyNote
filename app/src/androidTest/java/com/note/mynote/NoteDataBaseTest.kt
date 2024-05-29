@@ -135,7 +135,7 @@ class NoteDataBaseTest {
                     //Arrange
                     val note = Note(
                         title = "fgfff",
-                       description =  "dfgdfgdfg",
+                        description = "dfgdfgdfg",
                         time = "dfgdfg",
                         date = "sdfsdf"
                     )
@@ -204,8 +204,8 @@ class NoteDataBaseTest {
                     val note = Note(
                         title = "Grown",
                         description = "dfgdfg",
-                       time =  "20:48",
-                       date =  "2024/04/01"
+                        time = "20:48",
+                        date = "2024/04/01"
                     )
                     //Act
                     dao.upsertNote(note)

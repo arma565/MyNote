@@ -30,6 +30,7 @@ import com.note.mynote.viewmodel.NoteViewModel
 
 /**
  * Details
+ * Details of a note
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,26 +58,36 @@ fun DetailsFragmentComposeView(
                     IconButton(onClick = {
                         showDialog = true
                     }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete")
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = stringResource(id = R.string.delete)
+                        )
                     }
 
                     IconButton(onClick = {
                         onEditClick(note.id)
                     }) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit")
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = stringResource(id = R.string.edit)
+                        )
                     }
 
                     IconButton(onClick = {
                         onShareClick()
                     }) {
-                        Icon(imageVector = Icons.Filled.Share, contentDescription = "Share")
+                        Icon(
+                            imageVector = Icons.Filled.Share,
+                            contentDescription = stringResource(id = R.string.share)
+                        )
                     }
                 }
             )
         }) { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-            ) {
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
             Text(
                 modifier = Modifier
                     .fillMaxSize()

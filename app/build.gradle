@@ -45,23 +45,15 @@ android {
     }
 }
 
+
 dependencies {
-    implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.android.material
     implementation libs.joda.time
-    implementation libs.androidx.activity.ktx
-    implementation libs.androidx.fragment.ktx
     implementation libs.androidx.test.core
-    implementation libs.androidx.junit
-    implementation libs.androidx.ui
-    implementation libs.androidx.ui.graphics
-    testImplementation libs.junit
-    androidTestImplementation libs.junit
-    androidTestImplementation libs.androidx.test.core
-    androidTestImplementation libs.androidx.espresso.core
-    androidTestImplementation libs.androidx.ui.test.junit4
-    debugImplementation libs.androidx.ui.test.manifest
+    testImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.ext
+    androidTestRuntimeOnly libs.androidx.test.core
 
     //room
     implementation(libs.room)
@@ -73,14 +65,14 @@ dependencies {
     ksp(libs.dagger.hilt.compiler.ksp)
 
     //coroutine
-    implementation(libs.coroutine.android)
+    runtimeOnly libs.coroutine.android
     implementation libs.coroutine.core
 
     //Compose
+    androidTestImplementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.compose.material3
     implementation libs.androidx.compose.constraint.layout
-    implementation libs.androidx.compose.compiler
-    implementation libs.androidx.compose.ui
+    runtimeOnly libs.androidx.compose.compiler
     implementation libs.androidx.compose.activity
     implementation libs.androidx.compose.viewmodel
     implementation libs.androidx.compose.livedata
@@ -89,14 +81,9 @@ dependencies {
     implementation libs.androidx.compose.window.size
     implementation libs.androidx.compose.navigation
     implementation libs.androidx.lifecycle.runtime.compose
-    debugImplementation libs.androidx.compose.debug
-    debugImplementation libs.androidx.compose.ui.debug
+    implementation libs.androidx.compose.ui.tooling.preview
+    debugImplementation libs.androidx.compose.ui.tooling.debug
     implementation platform(libs.androidx.compose.bom)
-    androidTestImplementation platform(libs.androidx.compose.bom)
-
-    // Lifecycle ViewModel
-    implementation libs.androidx.lifecycle.viewmodel
-    // Lifecycle LiveData
-    implementation libs.androidx.lifecycle.livedata
-    implementation libs.androidx.lifecycle.runtime.ktx
+    androidTestImplementation libs.androidx.ui.compose.test.junit4
+    debugRuntimeOnly libs.androidx.ui.compose.test.manifest
 }

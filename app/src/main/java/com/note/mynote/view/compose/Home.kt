@@ -42,17 +42,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.note.mynote.R
 import com.note.mynote.data.models.Note
+import com.note.mynote.view.activity.ui.theme.Black
+import com.note.mynote.view.activity.ui.theme.White
 import com.note.mynote.viewmodel.NoteViewModel
 import java.util.Locale
 
 /**
  * Home
+ * Show all added notes
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -120,10 +122,8 @@ fun HomeFragmentComposeView(
                         }
                         .fillMaxWidth(),
                     colors = SearchBarDefaults.colors(
-                        containerColor = colorResource(id = R.color.white),
-                        dividerColor = colorResource(
-                            id = R.color.black
-                        )
+                        containerColor = White,
+                        dividerColor = Black
                     ),
                     query = text,
                     onQueryChange = {
@@ -141,20 +141,28 @@ fun HomeFragmentComposeView(
                     },
                     placeholder = { Text(text = stringResource(id = R.string.search_here)) },
                     leadingIcon = {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+                        Icon(
+                            imageVector = Icons.Default.Search, contentDescription = stringResource(
+                                R.string.search_icon
+                            )
+                        )
                     }, trailingIcon = {
-                        if (active) Icon(modifier = Modifier.clickable {
-                            if (text.isEmpty()) {
-                                active = false
-                                return@clickable
-                            }
-                            text = ""
-                        }, imageVector = Icons.Default.Clear, contentDescription = "Close Icon")
+                        if (active) Icon(
+                            modifier = Modifier.clickable {
+                                if (text.isEmpty()) {
+                                    active = false
+                                    return@clickable
+                                }
+                                text = ""
+                            },
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = stringResource(R.string.close_icon)
+                        )
                     }
                 ) {
                     val filterList: List<Note> =
                         (noteViewModel.getNoteList.collectAsState().value).filter {
-                            it.title!!.lowercase(Locale.ROOT).contains(text)
+                            it.title!!.trim().lowercase(Locale.ROOT).contains(text)
                         }
                     if (filterList.isEmpty()) {
                         Toast.makeText(
@@ -172,7 +180,7 @@ fun HomeFragmentComposeView(
                                 Icon(
                                     modifier = Modifier.padding(end = 10.dp),
                                     imageVector = Icons.Default.History,
-                                    contentDescription = "History Icon",
+                                    contentDescription = stringResource(R.string.history_icon),
                                 )
                                 Text(text = it.title!!)
                             }
@@ -187,10 +195,8 @@ fun HomeFragmentComposeView(
                                 .fillMaxWidth()
                                 .height(50.dp),
                                 colors = CardColors(
-                                    containerColor = colorResource(id = R.color.white),
-                                    contentColor = colorResource(
-                                        id = R.color.black
-                                    ),
+                                    containerColor = White,
+                                    contentColor = Black,
                                     disabledContentColor = Color.Gray,
                                     disabledContainerColor = Color.Gray
                                 ),
@@ -223,10 +229,8 @@ fun HomeFragmentComposeView(
                             .fillMaxWidth()
                             .height(50.dp),
                             colors = CardColors(
-                                containerColor = colorResource(id = R.color.white),
-                                contentColor = colorResource(
-                                    id = R.color.black
-                                ),
+                                containerColor = White,
+                                contentColor = Black,
                                 disabledContentColor = Color.Gray,
                                 disabledContainerColor = Color.Gray
                             ),

@@ -53,6 +53,7 @@ import org.joda.time.DateTimeUtils
 
 /**
  * Edit note
+ * You can edit a note here
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -174,14 +175,14 @@ fun EditFragmentComposeView(
                             time = "${timePickerState.hour}:${timePickerState.minute}"
                             showTimePicker = false
                         }) {
-                            Text(text = "Confirm")
+                            Text(text = stringResource(id = R.string.confirm))
                         }
                     },
                     onDismissButton = {
                         TextButton(onClick = {
                             showTimePicker = false
                         }) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                     }
                 ) {
@@ -200,14 +201,14 @@ fun EditFragmentComposeView(
                             date = "${dt.year}/${dt.monthOfYear}/${dt.dayOfMonth}"
                             showDatePicker = false
                         }) {
-                            Text(text = "Confirm")
+                            Text(text = stringResource(id = R.string.confirm))
                         }
                     },
                     onDismissButton = {
                         TextButton(onClick = {
                             showDatePicker = false
                         }) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                     }
                 ) {
@@ -252,7 +253,7 @@ fun EditFragmentComposeView(
                                 }) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
-                                        contentDescription = "Close"
+                                        contentDescription = stringResource(id = R.string.close)
                                     )
                                 }
                             }
@@ -291,7 +292,7 @@ fun EditFragmentComposeView(
                                 }) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
-                                        contentDescription = "Close"
+                                        contentDescription = stringResource(id = R.string.close)
                                     )
                                 }
                             }

@@ -38,4 +38,9 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="history_icon">History Icon</string>
 </resources>

@@ -36,6 +36,7 @@ import org.joda.time.DateTime
 
 /**
  * Add note
+ * You can add a new note here
  */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -187,7 +188,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
                                 }) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
-                                        contentDescription = "Close"
+                                        contentDescription = stringResource(id = R.string.close)
                                     )
                                 }
                             }

@@ -64,23 +64,25 @@ class MainActivity : ComponentActivity() {
                                 onEditClick = {
                                     navController.navigate("$edit/$it")
                                 }, onShareClick = {
-                                    val intentShare = Intent()
-                                    intentShare.action = Intent.ACTION_SEND
-                                    intentShare.type = "text/plain"
-                                    val shareBody = "Title: ${note.title} \n" +
-                                            "Description : ${note.description} \n " +
-                                            "Time: ${note.time} \n " +
-                                            "Date: ${note.date}"
-                                    intentShare.putExtra(
-                                        Intent.EXTRA_SUBJECT,
-                                        applicationContext.getString(R.string.myNote)
-                                    )
-                                    intentShare.putExtra(Intent.EXTRA_TEXT, shareBody)
-                                    intentShare.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    val intentShare = Intent().apply {
+                                        action = Intent.ACTION_SEND
+                                        type = "text/plain"
+                                        putExtra(
+                                            Intent.EXTRA_SUBJECT,
+                                            applicationContext.getString(R.string.myNote)
+                                        )
+                                        putExtra(
+                                            Intent.EXTRA_TEXT, "Title: ${note.title} \n" +
+                                                    "Description : ${note.description} \n " +
+                                                    "Time: ${note.time} \n " +
+                                                    "Date: ${note.date}"
+                                        )
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    }
                                     this@MainActivity.startActivity(
                                         Intent.createChooser(
                                             intentShare,
-                                            "Share via"
+                                            applicationContext.getString(R.string.share)
                                         )
                                     )
                                 }, onHomeClick = {
