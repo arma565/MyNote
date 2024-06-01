@@ -115,7 +115,7 @@ private fun DeleteDialogDetails(
             Text(text = stringResource(id = R.string.delete))
         },
         text = { Text(text = stringResource(id = R.string.are_you_sure)) },
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = {},
         confirmButton = {
             TextButton(onClick = {
                 noteViewModel.deleteNote(note)
