@@ -4,8 +4,10 @@ import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -65,6 +67,8 @@ fun HomeFragmentComposeView(
 ) {
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
+    var showSearchBar by rememberSaveable { mutableStateOf(false) }
+    val noteList: List<Note> = noteViewModel.getNoteList.collectAsState().value
 
     if (showDialog) {
         DeleteDialog(noteViewModel, onDismissRequest = {
@@ -73,205 +77,128 @@ fun HomeFragmentComposeView(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.app_name)) },
-                actions = {
-                    IconButton(onClick = {
-                        showDialog = true
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.ClearAll,
-                            contentDescription = stringResource(
-                                id = R.string.clear
-                            )
-                        )
-                    }
-
-                    IconButton(onClick = {
-                        onAddClick()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = stringResource(
-                                id = R.string.add
-                            )
-                        )
-                    }
-                })
+            if (showSearchBar) {
+                SearchBarInvoke(
+                    noteViewModel,
+                    onDismissSearchBar = { showSearchBar = false },
+                    onDetailsClick = onDetailsClick
+                )
+            } else {
+                TopAppBarInvoke(onShowSearchBar = {
+                    showSearchBar = true
+                }, onShowDeleteDialog = {
+                    showDialog = true
+                }) {
+                    onAddClick()
+                }
+            }
         }
 
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(innerPadding)
         ) {
-            var text by remember { mutableStateOf("") }
-            var active by remember { mutableStateOf(false) }
-            val focusManager = LocalFocusManager.current
-            val historyList: MutableList<Note> = remember { mutableStateListOf() }
-
-            ConstraintLayout {
-
-                val (searchBar, lazyColumn, addButton) = createRefs()
-
-                SearchBar(
-                    modifier = Modifier
-                        .constrainAs(searchBar) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .fillMaxWidth(),
-                    colors = SearchBarDefaults.colors(
-                        containerColor = White,
-                        dividerColor = Black
-                    ),
-                    query = text,
-                    onQueryChange = {
-                        text = it
-                    },
-                    onSearch = {
-                        if (it.isNotEmpty()) {
-                            historyList.add(Note(title = it))
-                        }
-                        focusManager.clearFocus()
-                    },
-                    active = active,
-                    onActiveChange = {
-                        active = it
-                    },
-                    placeholder = { Text(text = stringResource(id = R.string.search_here)) },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search, contentDescription = stringResource(
-                                R.string.search_icon
-                            )
-                        )
-                    }, trailingIcon = {
-                        if (active) Icon(
-                            modifier = Modifier.clickable {
-                                if (text.isEmpty()) {
-                                    active = false
-                                    return@clickable
-                                }
-                                text = ""
-                            },
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = stringResource(R.string.close_icon)
-                        )
-                    }
-                ) {
-                    val filterList: List<Note> =
-                        (noteViewModel.getNoteList.collectAsState().value).filter {
-                            it.title!!.trim().lowercase(Locale.ROOT).contains(text)
-                        }
-                    if (filterList.isEmpty()) {
-                        Toast.makeText(
-                            LocalContext.current,
-                            stringResource(R.string.no_data_found),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@SearchBar
-                    }
-                    if (text.isEmpty()) {
-                        historyList.forEach {
-                            Row(modifier = Modifier
-                                .padding(all = 14.dp)
-                                .clickable { text = it.title!! }) {
-                                Icon(
-                                    modifier = Modifier.padding(end = 10.dp),
-                                    imageVector = Icons.Default.History,
-                                    contentDescription = stringResource(R.string.history_icon),
-                                )
-                                Text(text = it.title!!)
-                            }
-                        }
-                        return@SearchBar
-                    }
-                    //SearchBar
-                    LazyColumn {
-                        items(filterList) { filterNote ->
-                            ElevatedCard(modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                                .height(50.dp),
-                                colors = CardColors(
-                                    containerColor = White,
-                                    contentColor = Black,
-                                    disabledContentColor = Color.Gray,
-                                    disabledContainerColor = Color.Gray
-                                ),
-                                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                                onClick = {
-                                    onDetailsClick(filterNote.id)
-                                }) {
-                                NoteLazyColumn(filterNote)
-                            }
-                        }
-                    }
-                }
-
-                //Home
-                val noteList: List<Note> =
-                    noteViewModel.getNoteList.collectAsState().value
-                LazyColumn(
-                    modifier = Modifier
-                        .constrainAs(lazyColumn) {
-                            top.linkTo(searchBar.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(addButton.top)
-                        }
-                        .fillMaxWidth()
-                ) {
-                    items(noteList) { note ->
-                        ElevatedCard(modifier = Modifier
-                            .padding(10.dp)
-                            .fillMaxWidth()
-                            .height(50.dp),
-                            colors = CardColors(
-                                containerColor = White,
-                                contentColor = Black,
-                                disabledContentColor = Color.Gray,
-                                disabledContainerColor = Color.Gray
-                            ),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                            onClick = {
-                                onDetailsClick(note.id)
-                            }) {
-                            NoteLazyColumn(note)
-                        }
-                    }
-                }
+            NoteLazyColumn(noteList = noteList) {
+                onDetailsClick(it)
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun NoteLazyColumn(note: Note) {
-    Row {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(5.dp)
-        ) {
-            val (titleConst, dateTimeConst) = createRefs()
-            Text(modifier = Modifier.constrainAs(titleConst) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                bottom.linkTo(parent.bottom)
-            }, text = note.title!!)
-            Row(modifier = Modifier.constrainAs(dateTimeConst) {
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom)
+fun TopAppBarInvoke(
+    onShowSearchBar: () -> Unit,
+    onShowDeleteDialog: () -> Unit,
+    onAddClick: () -> Unit
+) {
+    TopAppBar(
+        title = { Text(text = stringResource(id = R.string.app_name)) },
+        actions = {
+            IconButton(onClick = {
+                onShowSearchBar()
             }) {
-                Text(
-                    modifier = Modifier.padding(end = 5.dp),
-                    text = note.date!!
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = stringResource(
+                        id = R.string.search_here
+                    )
                 )
-                Text(text = note.time!!)
+            }
+
+            IconButton(onClick = {
+                onShowDeleteDialog()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ClearAll,
+                    contentDescription = stringResource(
+                        id = R.string.clear
+                    )
+                )
+            }
+
+            IconButton(onClick = {
+                onAddClick()
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(
+                        id = R.string.add
+                    )
+                )
+            }
+        })
+}
+
+@Composable
+private fun NoteLazyColumn(noteList: List<Note>, onDetailsClick: (id: Int) -> Unit) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(noteList) { note ->
+            ElevatedCard(modifier = Modifier
+                .offset(10.dp)
+                .padding(10.dp)
+                .fillMaxWidth()
+                .height(50.dp),
+                colors = CardColors(
+                    containerColor = White,
+                    contentColor = Black,
+                    disabledContentColor = Color.Gray,
+                    disabledContainerColor = Color.Gray
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+                onClick = {
+                    onDetailsClick(note.id)
+                }) {
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(5.dp)
+                ) {
+                    val (titleConst, dateTimeConst) = createRefs()
+                    Text(modifier = Modifier.constrainAs(titleConst) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        bottom.linkTo(parent.bottom)
+                    }, text = note.title!!)
+                    Row(modifier = Modifier.constrainAs(dateTimeConst) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                    }) {
+                        Text(
+                            modifier = Modifier.padding(end = 5.dp),
+                            text = note.date!!
+                        )
+                        Text(text = note.time!!)
+                    }
+                }
             }
         }
     }
@@ -303,4 +230,94 @@ private fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> U
                 Text(text = stringResource(id = R.string.dismiss))
             }
         })
+}
+
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun SearchBarInvoke(
+    noteViewModel: NoteViewModel,
+    onDismissSearchBar: () -> Unit,
+    onDetailsClick: (id: Int) -> Unit
+) {
+    var text by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+    val historyList: MutableList<Note> = remember { mutableStateListOf() }
+    SearchBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        colors = SearchBarDefaults.colors(
+            containerColor = White,
+            dividerColor = Black
+        ),
+        query = text,
+        onQueryChange = {
+            text = it
+        },
+        onSearch = {
+            if (it.isNotEmpty()) {
+                historyList.add(Note(title = it))
+            }
+            focusManager.clearFocus()
+        },
+        active = active,
+        onActiveChange = {
+            active = it
+        },
+        placeholder = { Text(text = stringResource(id = R.string.search_here)) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search, contentDescription = stringResource(
+                    R.string.search_icon
+                )
+            )
+        }, trailingIcon = {
+            if (active) Icon(
+                modifier = Modifier.clickable {
+                    if (text.isEmpty()) {
+                        active = false
+                        onDismissSearchBar()
+                        return@clickable
+                    }
+                    text = ""
+                },
+                imageVector = Icons.Default.Clear,
+                contentDescription = stringResource(R.string.close_icon)
+            )
+        }
+    ) {
+        val filterList: List<Note> =
+            (noteViewModel.getNoteList.collectAsState().value).filter {
+                it.title!!.trim().lowercase(Locale.ROOT).contains(text)
+            }
+        if (filterList.isEmpty()) {
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(R.string.no_data_found),
+                Toast.LENGTH_SHORT
+            ).show()
+            return@SearchBar
+        }
+        if (text.isEmpty()) {
+            historyList.forEach {
+                Row(modifier = Modifier
+                    .padding(all = 14.dp)
+                    .clickable { text = it.title!! }) {
+                    Icon(
+                        modifier = Modifier.padding(end = 10.dp),
+                        imageVector = Icons.Default.History,
+                        contentDescription = stringResource(R.string.history_icon),
+                    )
+                    Text(text = it.title!!)
+                }
+            }
+            return@SearchBar
+        }
+        //SearchBar
+        NoteLazyColumn(noteList = filterList) {
+            onDetailsClick(it)
+        }
+    }
 }

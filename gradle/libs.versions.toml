@@ -13,7 +13,7 @@ composeConstraintLayout = "1.0.1"
 composeCompiler = "1.5.14"
 
 ## Plugins versions
-agp = "8.4.1"
+agp = "8.5.0"
 kotlin = "1.9.24"
 navigation = "2.7.7"
 hilt = "2.51.1"

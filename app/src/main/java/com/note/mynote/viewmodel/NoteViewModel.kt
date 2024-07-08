@@ -1,10 +1,9 @@
 package com.note.mynote.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.note.mynote.data.models.Note
-import com.note.mynote.data.repository.IRepository
+import com.note.mynote.data.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class NoteViewModel @Inject constructor(
-    private val repository: IRepository
+    private val repository: NoteRepository
 ) : ViewModel() {
 
     private var _getNoteListStateFlow: MutableStateFlow<List<Note>> =
@@ -59,7 +58,7 @@ class NoteViewModel @Inject constructor(
      */
     fun deleteNote(note: Note) {
         viewModelScope.launch {
-            repository.delete(note)
+            repository.deleteNote(note)
         }
     }
 
@@ -69,7 +68,7 @@ class NoteViewModel @Inject constructor(
      */
     fun deleteNotes() {
         viewModelScope.launch {
-            repository.deleteAll()
+            repository.deleteAllNotes()
         }
     }
 
@@ -78,12 +77,7 @@ class NoteViewModel @Inject constructor(
      * @param id note id
      * This method get a note using note id from database
      */
-    fun getSpecificNote(id: Int) : Note {
-        val get = getNoteList.value
-        Log.d("getSize", "${get.size}")
-        if (get.any { it.id == id }) {
-            return get.first { it.id == id }
-        }
-        return Note()
+    fun getSpecificNote(id: Int): Note {
+        return getNoteList.value.first { it.id == id }
     }
 }

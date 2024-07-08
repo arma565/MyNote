@@ -3,20 +3,21 @@ package com.note.mynote.data.repository
 import com.note.mynote.data.local.NoteDao
 import com.note.mynote.data.models.Note
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  * Repository
  * @param dao instance of Note Dao
  */
-class NoteRepositoryImp(
+open class NoteRepository @Inject constructor(
     private val dao: NoteDao
-) : IRepository {
+) : NoteDao {
 
     override suspend fun upsertNote(note: Note) = dao.upsertNote(note)
 
-    override suspend fun noteList(): Flow<List<Note>> = dao.noteList()
+    override fun noteList(): Flow<List<Note>> = dao.noteList()
 
-    override suspend fun delete(note: Note) = dao.deleteNote(note)
+    override suspend fun deleteNote(note: Note) = dao.deleteNote(note)
 
-    override suspend fun deleteAll() = dao.deleteAllNotes()
+    override suspend fun deleteAllNotes() = dao.deleteAllNotes()
 }

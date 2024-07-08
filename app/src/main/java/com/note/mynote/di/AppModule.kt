@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.note.mynote.data.local.AppDatabase
 import com.note.mynote.data.local.NoteDao
-import com.note.mynote.data.repository.IRepository
-import com.note.mynote.data.repository.NoteRepositoryImp
+import com.note.mynote.data.repository.NoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,8 +31,4 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDao(database: AppDatabase) = database.noteDao()
-
-    @Singleton
-    @Provides
-    fun provideRepositoryImp(noteDao: NoteDao): IRepository = NoteRepositoryImp(noteDao)
 }
