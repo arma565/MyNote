@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.navigation.safeargs)
     alias(libs.plugins.hilt.dagger)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -13,7 +14,6 @@ android {
     defaultConfig {
         applicationId "com.note.mynote"
         minSdk 25
-        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,13 +36,11 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions{
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
 }
 
 
 dependencies {
+    implementation(libs.androidx.core.ktx)
     implementation libs.androidx.appcompat
     implementation libs.android.material
     implementation libs.joda.time
@@ -50,6 +48,8 @@ dependencies {
     testImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.ext
     androidTestRuntimeOnly libs.androidx.test.core
+    testImplementation(libs.mockito.core)
+    androidTestImplementation(libs.mockito.android)
 
     //room
     implementation(libs.room)
@@ -64,11 +64,15 @@ dependencies {
     runtimeOnly libs.coroutine.android
     implementation libs.coroutine.core
 
+    //Retrofit
+    implementation libs.retrofit2
+    implementation libs.retrofit2.converter.gson
+
+
     //Compose
     androidTestImplementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.compose.material3
     implementation libs.androidx.compose.constraint.layout
-    runtimeOnly libs.androidx.compose.compiler
     implementation libs.androidx.compose.activity
     implementation libs.androidx.compose.viewmodel
     implementation libs.androidx.compose.livedata
@@ -76,9 +80,9 @@ dependencies {
     implementation libs.androidx.compose.icons.extended
     implementation libs.androidx.compose.window.size
     implementation libs.androidx.compose.navigation
-    implementation libs.androidx.lifecycle.runtime.compose
-    implementation libs.androidx.compose.ui.tooling.preview
-    debugImplementation libs.androidx.compose.ui.tooling.debug
+    implementation libs.androidx.compose.lifecycle.runtime
+    implementation libs.androidx.ui.compose.tooling.preview
+    debugImplementation libs.androidx.ui.compose.tooling.debug
     implementation platform(libs.androidx.compose.bom)
     androidTestImplementation libs.androidx.ui.compose.test.junit4
     debugRuntimeOnly libs.androidx.ui.compose.test.manifest

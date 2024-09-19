@@ -1,35 +1,39 @@
 [versions]
 ## Dependencies version
-appcompat = "1.6.1"
+coreKtx = "1.13.1"
+appcompat = "1.7.0"
 material = "1.12.0"
-androidxNavigation = "2.7.7"
 joda = "2.12.7"
-core = "1.5.0"
+core = "1.6.1"
 junitVersion = "4.13.2"
-extTest = "1.1.5"
+extTest = "1.2.1"
 room = "2.6.1"
 coroutine = "1.8.1"
 composeConstraintLayout = "1.0.1"
-composeCompiler = "1.5.14"
+retrofit = "2.11.0"
+mockito = "5.12.0"
+mockito-androidTestImplementation = "5.12.0"
 
 ## Plugins versions
-agp = "8.5.0"
-kotlin = "1.9.24"
-navigation = "2.7.7"
+agp = "8.6.0"
+kotlin = "2.0.20"
+navigation = "2.8.1"
 hilt = "2.51.1"
-ksp = "1.9.24-1.0.20"
-composeBom = "2024.05.00"
+ksp = "2.0.20-1.0.25"
+composeBom = "2024.09.02"
 dagp = "1.32.0"
 
 
 [libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 joda-time = { group = "net.danlew", name = "android.joda", version.ref = "joda" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "core" }
 androidx-ext = { group = "androidx.test.ext", name = "junit", version.ref = "extTest" }
 androidx-junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
-
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito-androidTestImplementation" }
 
 ## Room
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -44,35 +48,34 @@ dagger-hilt-compiler-ksp = { group = "com.google.dagger", name = "hilt-android-c
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
 
+## Retrofit
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 ##Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3"}
-androidx-compose-constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose" , version.ref = "composeConstraintLayout"}
-androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler" , version.ref="composeCompiler"}
-##Android Studio Preview support
-androidx-compose-ui-tooling-debug = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-ui-tooling-preview  = { group = "androidx.compose.ui", name = "ui-tooling-preview"}
-##LiveData,ViewModel,Activity
-androidx-compose-activity = { group = "androidx.activity", name = "activity-compose"}
-androidx-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose"}
-androidx-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata"}
-androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose"}
-##Icons
-androidx-compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core"}
-androidx-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
-androidx-compose-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class"}
-##Navigation
-androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose" ,version.ref="androidxNavigation"}
-##UI Tests
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayout" }
+androidx-ui-compose-tooling-debug = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-compose-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-ui-compose-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version = "1.9.2" }
+androidx-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose" }
+androidx-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
+androidx-compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version = "2.8.6" }
+androidx-compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
 
 
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 hilt-dagger = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

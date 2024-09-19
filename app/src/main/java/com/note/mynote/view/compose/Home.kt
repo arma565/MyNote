@@ -1,7 +1,5 @@
 package com.note.mynote.view.compose
 
-import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ClearAll
-import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
@@ -27,23 +23,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -51,46 +41,35 @@ import com.note.mynote.R
 import com.note.mynote.data.models.Note
 import com.note.mynote.view.activity.ui.theme.Black
 import com.note.mynote.view.activity.ui.theme.White
-import com.note.mynote.viewmodel.NoteViewModel
-import java.util.Locale
+import com.note.mynote.viewmodel.RemoteNoteViewModel
 
 /**
  * Home
  * Show all added notes
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeFragmentComposeView(
-    noteViewModel: NoteViewModel,
+    remoteNoteViewModel: RemoteNoteViewModel,
     onAddClick: () -> Unit,
     onDetailsClick: (id: Int) -> Unit
 ) {
-
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var showSearchBar by rememberSaveable { mutableStateOf(false) }
-    val noteList: List<Note> = noteViewModel.getNoteList.collectAsState().value
-
+    remoteNoteViewModel.getNotes()
+    val noteList: List<Note> = remoteNoteViewModel.getNoteListStateFlow.collectAsState().value
     if (showDialog) {
-        DeleteDialog(noteViewModel, onDismissRequest = {
+        DeleteDialog(remoteNoteViewModel, onDismissRequest = {
             showDialog = false
         })
     }
     Scaffold(
         topBar = {
-            if (showSearchBar) {
-                SearchBarInvoke(
-                    noteViewModel,
-                    onDismissSearchBar = { showSearchBar = false },
-                    onDetailsClick = onDetailsClick
-                )
-            } else {
-                TopAppBarInvoke(onShowSearchBar = {
-                    showSearchBar = true
-                }, onShowDeleteDialog = {
-                    showDialog = true
-                }) {
-                    onAddClick()
-                }
+            TopAppBarInvoke(onShowSearchBar = {
+                showSearchBar = true
+            }, onShowDeleteDialog = {
+                showDialog = true
+            }) {
+                onAddClick()
             }
         }
 
@@ -205,7 +184,7 @@ private fun NoteLazyColumn(noteList: List<Note>, onDetailsClick: (id: Int) -> Un
 }
 
 @Composable
-private fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> Unit) {
+private fun DeleteDialog(remoteNoteViewModel: RemoteNoteViewModel, onDismissRequest: () -> Unit) {
     AlertDialog(icon = {
         Icon(
             Icons.Filled.Info,
@@ -219,7 +198,7 @@ private fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> U
         onDismissRequest = {},
         confirmButton = {
             TextButton(onClick = {
-                noteViewModel.deleteNotes()
+                remoteNoteViewModel.deleteAllNotes()
                 onDismissRequest()
             }) {
                 Text(text = stringResource(id = R.string.confirm))
@@ -230,94 +209,4 @@ private fun DeleteDialog(noteViewModel: NoteViewModel, onDismissRequest: () -> U
                 Text(text = stringResource(id = R.string.dismiss))
             }
         })
-}
-
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-private fun SearchBarInvoke(
-    noteViewModel: NoteViewModel,
-    onDismissSearchBar: () -> Unit,
-    onDetailsClick: (id: Int) -> Unit
-) {
-    var text by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
-    val focusManager = LocalFocusManager.current
-    val historyList: MutableList<Note> = remember { mutableStateListOf() }
-    SearchBar(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        colors = SearchBarDefaults.colors(
-            containerColor = White,
-            dividerColor = Black
-        ),
-        query = text,
-        onQueryChange = {
-            text = it
-        },
-        onSearch = {
-            if (it.isNotEmpty()) {
-                historyList.add(Note(title = it))
-            }
-            focusManager.clearFocus()
-        },
-        active = active,
-        onActiveChange = {
-            active = it
-        },
-        placeholder = { Text(text = stringResource(id = R.string.search_here)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search, contentDescription = stringResource(
-                    R.string.search_icon
-                )
-            )
-        }, trailingIcon = {
-            if (active) Icon(
-                modifier = Modifier.clickable {
-                    if (text.isEmpty()) {
-                        active = false
-                        onDismissSearchBar()
-                        return@clickable
-                    }
-                    text = ""
-                },
-                imageVector = Icons.Default.Clear,
-                contentDescription = stringResource(R.string.close_icon)
-            )
-        }
-    ) {
-        val filterList: List<Note> =
-            (noteViewModel.getNoteList.collectAsState().value).filter {
-                it.title!!.trim().lowercase(Locale.ROOT).contains(text)
-            }
-        if (filterList.isEmpty()) {
-            Toast.makeText(
-                LocalContext.current,
-                stringResource(R.string.no_data_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            return@SearchBar
-        }
-        if (text.isEmpty()) {
-            historyList.forEach {
-                Row(modifier = Modifier
-                    .padding(all = 14.dp)
-                    .clickable { text = it.title!! }) {
-                    Icon(
-                        modifier = Modifier.padding(end = 10.dp),
-                        imageVector = Icons.Default.History,
-                        contentDescription = stringResource(R.string.history_icon),
-                    )
-                    Text(text = it.title!!)
-                }
-            }
-            return@SearchBar
-        }
-        //SearchBar
-        NoteLazyColumn(noteList = filterList) {
-            onDetailsClick(it)
-        }
-    }
 }

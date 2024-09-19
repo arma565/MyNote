@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.note.mynote.R
 import com.note.mynote.data.models.Note
-import com.note.mynote.viewmodel.NoteViewModel
+import com.note.mynote.viewmodel.RemoteNoteViewModel
 
 /**
  * Details
@@ -35,7 +35,7 @@ import com.note.mynote.viewmodel.NoteViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsFragmentComposeView(
-    noteViewModel: NoteViewModel,
+    remoteNoteViewModel: RemoteNoteViewModel,
     note: Note,
     onEditClick: (updatedNoteId: Int) -> Unit,
     onShareClick: () -> Unit,
@@ -44,7 +44,7 @@ fun DetailsFragmentComposeView(
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
     if (showDialog) {
-        DeleteDialogDetails(note, noteViewModel, onHomeClick = { onHomeClick() }) {
+        DeleteDialogDetails(note, remoteNoteViewModel, onHomeClick = { onHomeClick() }) {
             showDialog = false
         }
     }
@@ -101,7 +101,7 @@ fun DetailsFragmentComposeView(
 @Composable
 private fun DeleteDialogDetails(
     note: Note,
-    noteViewModel: NoteViewModel,
+    remoteNoteViewModel: RemoteNoteViewModel,
     onHomeClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
@@ -118,7 +118,7 @@ private fun DeleteDialogDetails(
         onDismissRequest = {},
         confirmButton = {
             TextButton(onClick = {
-                noteViewModel.deleteNote(note)
+                remoteNoteViewModel.deleteNote(note.id)
                 onDismissRequest()
                 onHomeClick()
             }) {

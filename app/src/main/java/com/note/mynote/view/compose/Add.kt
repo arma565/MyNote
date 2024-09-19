@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.note.mynote.R
 import com.note.mynote.data.models.GlobalFunctions
+import com.note.mynote.data.models.GlobalFunctions.validateNote
 import com.note.mynote.data.models.IViewNoteResponse
 import com.note.mynote.data.models.Note
 import org.joda.time.DateTime
@@ -61,7 +62,7 @@ fun AddFragmentComposeView(onSave: (note: Note) -> Unit) {
                         time = time,
                         date = date
                     )
-                    if (GlobalFunctions.validateNote(note, object : IViewNoteResponse {
+                    if (validateNote(note, object : IViewNoteResponse {
                             override fun onEmptyTitle() {
                                 titleError = true
                                 descriptionError = false

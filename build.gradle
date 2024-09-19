@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt.dagger) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.dependencyAnalysis)
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 dependencyAnalysis {
