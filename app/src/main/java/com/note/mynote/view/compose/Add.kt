@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.note.mynote.R
-import com.note.mynote.data.models.GlobalFunctions
 import com.note.mynote.data.models.GlobalFunctions.validateNote
 import com.note.mynote.data.models.IViewNoteResponse
 import com.note.mynote.data.models.Note

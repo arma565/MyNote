@@ -1,6 +1,5 @@
 package com.note.mynote.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.note.mynote.data.models.Note
@@ -41,10 +40,10 @@ class RemoteNoteViewModel @Inject constructor(
 
     fun getNote(id: Int) {
         viewModelScope.launch {
-           remoteNoteRepository.getNote(id).collect {
-               _getNoteStateFlow.emit(it)
-               delay(1000)
-           }
+            remoteNoteRepository.getNote(id).collect {
+                _getNoteStateFlow.emit(it)
+                delay(1000)
+            }
         }
     }
 
