@@ -23,4 +23,5 @@
     <string name="search_icon">Search Icon</string>
     <string name="close_icon">Close Icon</string>
     <string name="history_icon">History Icon</string>
+    <string name="trigger_refresh">Trigger refresh</string>
 </resources>

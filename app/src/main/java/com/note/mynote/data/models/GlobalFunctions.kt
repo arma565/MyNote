@@ -1,5 +1,10 @@
 package com.note.mynote.data.models
 
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import com.state.network.IResponseEvent
+import com.state.network.NetworkStateManager
+
 /**
  * Useful functions
  */
@@ -30,5 +35,21 @@ object GlobalFunctions {
                 true
             }
         }
+    }
+
+    fun checkNetwork(activity: ComponentActivity , isConnected : (state : Boolean) -> Unit) {
+        NetworkStateManager(activity, activity).start(object : IResponseEvent {
+            override fun networkState(state: Boolean) {
+                if (!state) {
+                    Toast.makeText(
+                        activity, "Network unavailable or server not respond. Please check your connection.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    isConnected(false)
+                }else{
+                    isConnected(true)
+                }
+            }
+        })
     }
 }

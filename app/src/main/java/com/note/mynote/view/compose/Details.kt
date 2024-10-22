@@ -44,8 +44,8 @@ fun DetailsFragmentComposeView(
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
     if (showDialog) {
-        DeleteDialogDetails(note, remoteNoteViewModel, onHomeClick = { onHomeClick() }) {
-            showDialog = false
+        DeleteDialogDetails(note, remoteNoteViewModel, onDismissRequest = { showDialog = false }) {
+            onHomeClick()
         }
     }
     Scaffold(
@@ -102,8 +102,8 @@ fun DetailsFragmentComposeView(
 private fun DeleteDialogDetails(
     note: Note,
     remoteNoteViewModel: RemoteNoteViewModel,
-    onHomeClick: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onHomeClick: () -> Unit
 ) {
     AlertDialog(icon = {
         Icon(

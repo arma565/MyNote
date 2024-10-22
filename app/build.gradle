@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_22
+        targetCompatibility JavaVersion.VERSION_22
     }
     kotlin{
-        jvmToolchain(21)
+        jvmToolchain(22)
     }
 
     buildFeatures {
@@ -45,11 +45,13 @@ dependencies {
     implementation libs.android.material
     implementation libs.joda.time
     implementation libs.androidx.test.core
+    implementation project(':network')
     testImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.ext
     androidTestRuntimeOnly libs.androidx.test.core
     testImplementation(libs.mockito.core)
     androidTestImplementation(libs.mockito.android)
+
 
     //room
     implementation(libs.room)
@@ -68,7 +70,6 @@ dependencies {
     implementation libs.retrofit2
     implementation libs.retrofit2.converter.gson
 
-
     //Compose
     androidTestImplementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.compose.material3
@@ -86,4 +87,5 @@ dependencies {
     implementation platform(libs.androidx.compose.bom)
     androidTestImplementation libs.androidx.ui.compose.test.junit4
     debugRuntimeOnly libs.androidx.ui.compose.test.manifest
+
 }

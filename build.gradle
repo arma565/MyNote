@@ -1,4 +1,3 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
@@ -6,30 +5,7 @@ plugins {
     alias(libs.plugins.navigation.safeargs) apply false
     alias(libs.plugins.hilt.dagger) apply false
     alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.dependencyAnalysis)
     alias(libs.plugins.compose.compiler) apply false
-}
-
-dependencyAnalysis {
-    issues {
-        all {
-            onUnusedDependencies {
-                severity('fail')
-            }
-            onUsedTransitiveDependencies {
-                severity('warn')
-            }
-            onIncorrectConfiguration {
-                severity('fail')
-            }
-            onUnusedAnnotationProcessors {
-                severity('fail')
-            }
-            onRedundantPlugins {
-                severity('fail')
-            }
-        }
-    }
 }
 
 

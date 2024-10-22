@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.note.mynote.R
+import com.note.mynote.data.models.GlobalFunctions.checkNetwork
 import com.note.mynote.data.models.Note
 import com.note.mynote.view.activity.ui.theme.MyNoteTheme
 import com.note.mynote.view.compose.AddFragmentComposeView
@@ -27,27 +28,30 @@ class MainActivity : ComponentActivity() {
     private val remoteNoteViewModel: RemoteNoteViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val home = "home"
         val add = "add"
         val details = "details"
         val edit = "edit"
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             MyNoteTheme {
-                val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = home) {
                     composable(home) {
-                        HomeFragmentComposeView(remoteNoteViewModel = remoteNoteViewModel,
+                        HomeFragmentComposeView(this@MainActivity,
+                            remoteNoteViewModel = remoteNoteViewModel,
                             onAddClick = {
                                 navController.navigate(add)
-                            }, onDetailsClick = {
-                                navController.navigate("$details/$it")
+                            },
+                            onDetailsClick = { id ->
+                                navController.navigate("$details/$id")
                             })
                     }
                     composable(add) {
                         AddFragmentComposeView { note ->
                             remoteNoteViewModel.createNote(note)
-                            navController.navigate(home)
+                            startActivity(Intent(applicationContext, MainActivity::class.java))
                         }
                     }
                     composable(
@@ -56,15 +60,16 @@ class MainActivity : ComponentActivity() {
                             type = NavType.IntType
                         })
                     ) { navBackStackEntry ->
-                        val noteId = navBackStackEntry.arguments?.getInt("id")
-                        remoteNoteViewModel.getNote(noteId!!)
-                        val note = remoteNoteViewModel.getNoteStateFlow.collectAsState().value
+                        val noteId: Int = navBackStackEntry.arguments?.getInt("id")!!
+                        remoteNoteViewModel.getNote(noteId)
+                        val note =
+                            remoteNoteViewModel.getNoteStateFlow.collectAsState().value
                         if (note != Note()) {
                             DetailsFragmentComposeView(
                                 remoteNoteViewModel = remoteNoteViewModel,
                                 note = note,
-                                onEditClick = {
-                                    navController.navigate("$edit/$it")
+                                onEditClick = { updatedNoteId ->
+                                    navController.navigate("$edit/$updatedNoteId")
                                 }, onShareClick = {
                                     val intentShare = Intent().apply {
                                         action = Intent.ACTION_SEND
@@ -88,7 +93,12 @@ class MainActivity : ComponentActivity() {
                                         )
                                     )
                                 }, onHomeClick = {
-                                    navController.navigate(home)
+                                    startActivity(
+                                        Intent(
+                                            applicationContext,
+                                            MainActivity::class.java
+                                        )
+                                    )
                                 })
                         }
                     }
@@ -98,15 +108,24 @@ class MainActivity : ComponentActivity() {
                             type = NavType.IntType
                         })
                     ) { navBackStackEntry ->
-                        val noteId = navBackStackEntry.arguments?.getInt("id")
-                        remoteNoteViewModel.getNote(noteId!!)
-                        val note = remoteNoteViewModel.getNoteStateFlow.collectAsState().value
+                        val noteId = navBackStackEntry.arguments?.getInt("id")!!
+                        remoteNoteViewModel.getNote(noteId)
+                        val note =
+                            remoteNoteViewModel.getNoteStateFlow.collectAsState().value
                         if (note != Note()) {
                             EditFragmentComposeView(
                                 note = note,
                                 onSave = { updatedNote ->
-                                    remoteNoteViewModel.updateNote(updatedNote.id, updatedNote)
-                                    navController.navigate(home)
+                                    remoteNoteViewModel.updateNote(
+                                        updatedNote.id,
+                                        updatedNote
+                                    )
+                                    startActivity(
+                                        Intent(
+                                            applicationContext,
+                                            MainActivity::class.java
+                                        )
+                                    )
                                 }
                             )
                         }
@@ -114,5 +133,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        checkNetwork(this@MainActivity) {}
     }
 }
