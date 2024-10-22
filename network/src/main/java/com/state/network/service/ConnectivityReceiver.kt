@@ -49,14 +49,10 @@ class ConnectivityReceiver(private val listener: IResponseEvent) {
     }
 
     private fun ping(url: String, onComplete: (Boolean) -> Unit) {
-        try {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 5000
-            val responseCode = connection.responseCode
-            onComplete(responseCode == HttpURLConnection.HTTP_OK)
-        } catch (e: Exception) {
-            onComplete(false)
-        }
+        val connection = URL(url).openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+        connection.connectTimeout = 5000
+        val responseCode = connection.responseCode
+        onComplete(responseCode == HttpURLConnection.HTTP_OK)
     }
 }

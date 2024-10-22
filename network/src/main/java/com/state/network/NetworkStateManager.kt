@@ -1,11 +1,10 @@
 package com.state.network
 
 import android.content.Context
-import androidx.lifecycle.LifecycleOwner
 import com.state.network.service.ConnectivityReceiver
 
 class
-NetworkStateManager(private val context: Context, private val owner: LifecycleOwner) :
+NetworkStateManager(private val context: Context) :
     INetworkStateManager {
 
     companion object {
