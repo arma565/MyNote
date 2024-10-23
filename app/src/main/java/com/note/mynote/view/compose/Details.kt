@@ -36,17 +36,22 @@ import com.note.mynote.viewmodel.RemoteNoteViewModel
 @Composable
 fun DetailsFragmentComposeView(
     remoteNoteViewModel: RemoteNoteViewModel,
-    note: Note,
+    noteID: Long,
     onEditClick: (updatedNoteId: Int) -> Unit,
-    onShareClick: () -> Unit,
+    onShareClick: (note : Note) -> Unit,
     onHomeClick: () -> Unit,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
+    val note = remoteNoteViewModel.getSpecificNote(noteID)
+
     if (showDialog) {
-        DeleteDialogDetails(note, remoteNoteViewModel, onDismissRequest = { showDialog = false }) {
-            onHomeClick()
-        }
+        DeleteDialogDetails(note,
+            remoteNoteViewModel,
+            onDismissRequest = {
+                showDialog = false
+                onHomeClick()
+            })
     }
     Scaffold(
         topBar = {
@@ -74,7 +79,7 @@ fun DetailsFragmentComposeView(
                     }
 
                     IconButton(onClick = {
-                        onShareClick()
+                        onShareClick(note)
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Share,
@@ -102,8 +107,7 @@ fun DetailsFragmentComposeView(
 private fun DeleteDialogDetails(
     note: Note,
     remoteNoteViewModel: RemoteNoteViewModel,
-    onDismissRequest: () -> Unit,
-    onHomeClick: () -> Unit
+    onDismissRequest: () -> Unit
 ) {
     AlertDialog(icon = {
         Icon(
@@ -120,7 +124,6 @@ private fun DeleteDialogDetails(
             TextButton(onClick = {
                 remoteNoteViewModel.deleteNote(note.id)
                 onDismissRequest()
-                onHomeClick()
             }) {
                 Text(text = stringResource(id = R.string.confirm))
             }

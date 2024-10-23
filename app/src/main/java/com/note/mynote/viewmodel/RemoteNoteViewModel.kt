@@ -98,4 +98,18 @@ class RemoteNoteViewModel @Inject constructor(
     fun onSearchTextChanged(text: String) {
         _searchText.value = text
     }
+
+    /**
+     * Get specific note using id
+     * @param id property id
+     * This method get a note using note id from database
+     */
+    fun getSpecificNote(id: Long): Note {
+        getNotes()
+        val getNote = getNoteListStateFlow.value
+        if (getNote.any { it.id.toLong() == id }) {
+            return getNote.first { it.id.toLong() == id }
+        }
+        return Note()
+    }
 }

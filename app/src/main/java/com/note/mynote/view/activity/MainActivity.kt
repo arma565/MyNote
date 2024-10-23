@@ -46,31 +46,29 @@ class MainActivity : ComponentActivity() {
                             },
                             onDetailsClick = { id ->
                                 navController.navigate("$details/$id")
+                            }, onDismissDialog = {
+                                navController.navigate(home)
                             })
                     }
                     composable(add) {
                         AddFragmentComposeView { note ->
                             remoteNoteViewModel.createNote(note)
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                            navController.navigate(home)
                         }
                     }
                     composable(
                         route = "$details/{id}",
                         arguments = listOf(navArgument("id") {
-                            type = NavType.IntType
+                            type = NavType.LongType
                         })
                     ) { navBackStackEntry ->
-                        val noteId: Int = navBackStackEntry.arguments?.getInt("id")!!
-                        remoteNoteViewModel.getNote(noteId)
-                        val note =
-                            remoteNoteViewModel.getNoteStateFlow.collectAsState().value
-                        if (note != Note()) {
+                        navBackStackEntry.arguments?.getLong("id").let { noteId ->
                             DetailsFragmentComposeView(
                                 remoteNoteViewModel = remoteNoteViewModel,
-                                note = note,
+                                noteID = noteId!!,
                                 onEditClick = { updatedNoteId ->
                                     navController.navigate("$edit/$updatedNoteId")
-                                }, onShareClick = {
+                                }, onShareClick = { note ->
                                     val intentShare = Intent().apply {
                                         action = Intent.ACTION_SEND
                                         type = "text/plain"
@@ -93,12 +91,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     )
                                 }, onHomeClick = {
-                                    startActivity(
-                                        Intent(
-                                            applicationContext,
-                                            MainActivity::class.java
-                                        )
-                                    )
+                                    navController.navigate(home)
                                 })
                         }
                     }
@@ -120,12 +113,7 @@ class MainActivity : ComponentActivity() {
                                         updatedNote.id,
                                         updatedNote
                                     )
-                                    startActivity(
-                                        Intent(
-                                            applicationContext,
-                                            MainActivity::class.java
-                                        )
-                                    )
+                                    navController.navigate(home)
                                 }
                             )
                         }
@@ -133,8 +121,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
     }
 
     override fun onDestroy() {

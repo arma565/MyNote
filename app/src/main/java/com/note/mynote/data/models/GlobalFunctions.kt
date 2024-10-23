@@ -38,7 +38,7 @@ object GlobalFunctions {
     }
 
     fun checkNetwork(activity: ComponentActivity , isConnected : (state : Boolean) -> Unit) {
-        NetworkStateManager(activity, activity).start(object : IResponseEvent {
+        NetworkStateManager(activity).start(object : IResponseEvent {
             override fun networkState(state: Boolean) {
                 if (!state) {
                     Toast.makeText(

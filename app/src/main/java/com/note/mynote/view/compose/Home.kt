@@ -72,7 +72,8 @@ fun HomeFragmentComposeView(
     activity: ComponentActivity,
     remoteNoteViewModel: RemoteNoteViewModel,
     onAddClick: () -> Unit,
-    onDetailsClick: (id: Int) -> Unit
+    onDetailsClick: (id: Long) -> Unit,
+    onDismissDialog: () -> Unit
 ) {
     var isConnected by rememberSaveable { mutableStateOf(false) }
     var itemCount by remember { mutableIntStateOf(15) }
@@ -95,13 +96,13 @@ fun HomeFragmentComposeView(
     if (showDialog) {
         DeleteDialog(remoteNoteViewModel, onDismissRequest = {
             showDialog = false
+            onDismissDialog()
         })
     }
 
     val onRefresh: () -> Unit = {
         isRefreshing = true
         refreshCoroutineScope.launch {
-            remoteNoteViewModel.getNotes()
             delay(5000)
             itemCount += 5
             isRefreshing = false
@@ -127,6 +128,7 @@ fun HomeFragmentComposeView(
 
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
+            remoteNoteViewModel.getNotes()
             val noteList = remoteNoteViewModel.getNoteListStateFlow.collectAsState().value
             if (!isRefreshing) {
                 Column(
@@ -218,7 +220,7 @@ fun TopAppBarInvoke(
 }
 
 @Composable
-private fun NoteLazyColumn(noteList: List<Note>, onDetailsClick: (id: Int) -> Unit) {
+private fun NoteLazyColumn(noteList: List<Note>, onDetailsClick: (id: Long) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -237,7 +239,7 @@ private fun NoteLazyColumn(noteList: List<Note>, onDetailsClick: (id: Int) -> Un
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                 onClick = {
-                    onDetailsClick(note.id)
+                    onDetailsClick(note.id.toLong())
                 }) {
                 ConstraintLayout(
                     modifier = Modifier
@@ -274,7 +276,7 @@ private fun SearchBarBox(
     remoteNoteViewModel: RemoteNoteViewModel,
     isSearching: Boolean,
     noteItems: List<Note>,
-    onDetailsClick: (id: Int) -> Unit,
+    onDetailsClick: (id: Long) -> Unit,
     onCloseSearchBox: () -> Unit
 ) {
     Column(
